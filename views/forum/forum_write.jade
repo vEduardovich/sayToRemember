@@ -1,0 +1,66 @@
+extends ../layout
+
+block subhead
+  link(rel='canonical' href='https://str.himion.com')
+  title #{forumName} writing page
+  meta(name='description' content='#{forumName} writing page in SayToRemember')
+  meta(property='og:locale'       content='ko_KR')
+  meta(property='og:type'         content='website')
+  meta(property='og:title'        content='Say To Remember - Remember your sentence')
+  meta(property='og:description'  content='English, listen, remember, dictation, write, learn, self-study, self-education')
+  meta(property='og:url'          content='https://str.himion.com')
+  meta(property='og:site_name'    content='세이 투 리멤버')
+  meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='og:image:width'  content='192')
+  meta(property='og:image:height' content='192')
+
+  meta(property='twitter:locale'  content='ko_KR')
+  meta(property='twitter:type'    content='website')
+  meta(property='twitter:card'    content='summary')
+  meta(property='twitter:url'     content='https://str.himion.com')
+  meta(property='twitter:site_name' content='세이 투 리멤버')
+  meta(property='twitter:title'   content='Say To Remember - Remember your sentence')
+  meta(property='twitter:description'  content='English, listen, remember, dictation, write, learn, self-study, self-education')
+  meta(property='twitter:creator' content='SayToRemember')
+  meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='twitter:image:width'  content='192')
+  meta(property='twitter:image:height' content='192')
+
+
+block subScript
+  link(rel='stylesheet' type='text/css' href='/css/index.css')
+  link(rel='stylesheet' type='text/css' href='/css/forum_write.css')
+  script(src='/js/forum/tinymce.min.js')
+  script(src='/js/forum/forum_client_write.js')
+
+block content
+  input(hidden data-my-nickname='#{nickname}' data-level='#{level}' data-nickname='#{userNickname}' data-user='#{nickname}' data-forum-name='#{forumName}' data-forum-num='#{forumNum}' )#forumInfo
+
+  .frame
+      - // 옵션 박스 안에서 Modify를 클릭했을 때 뜨는 팝업 창
+    .mfp-hide.youtubePopup#youtubePopup
+      .youtubePopupTitle 유튜브 영상 추가
+      textarea(placeholder="유튜브 주소를 넣어주세요").form-control.youtubeAddress#youtubeAddress
+      a(href='javascript:;').btnOK#btnOK OK
+
+    .contents
+      .articleWriteWrap 
+        .articleTitleWrapper
+          a(href='javascript:;' onclick='window.history.back();').fa.fa-arrow-left.backward
+          h3.forumName 글쓰기
+          a(href='javascript:;').submitArticle#submitArticle 등록하기
+
+        .articleContentsWrapper
+          input(type='text' name='title' placeholder='제목을 입력하세요').articleTitle#articleTitle
+          .writeBtnSet
+            a(href='javascript:;' onclick='youtubePopup()').fa.fa-youtube.uploadYoutube#uploadYoutube
+            a(href='javascript:;' onclick='document.getElementById("imgFile").click();').fa.fa-file-image-o.uploadImage#uploadImage
+
+          textarea(rows = '8' name='article' placeholder='포기하지 않는 자에게 꿈은 반드시 찾아온다.').articleTxtArea#articleTxtArea
+
+          .addMedia
+
+        form(action='' method='post' enctype='multipart/form-data' )#imageForm
+          - // 아래의 this.value=''; 를 넣지 않으면 submit 이벤트가 발생하지 않아 ajax를 실행되지 않는다.
+          - // 정말 한참을 고생하다 알게되었는데 저것이 정확하게 어떤 의미인지는 나중에 깊이 고찰해보자. 1d6.12.03 토요일 새벽 5시 17분에
+          input(type='file' name='imgFile' accept="image/*" onchange="$('#imageForm').submit(); this.value='';" )#imgFile              

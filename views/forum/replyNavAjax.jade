@@ -1,0 +1,117 @@
+- // forum.jade의 .replyArticleWrap 아래와 완전히 동일하게 맞췄다. 복사해 붙여 넣으면 된다.
+- // 댓글 영역
+each reply, idx in mainReply
+  .mainReply
+    - // 답글과 구조를 맞추기 위해 더미로 만든다. ㄴ 아이콘이 들어가며 구조가 바뀌었다
+    .mainReplyArea
+      - // 답글이 없는 일반 댓글 표시
+      .replyArticleArea(data-id='#{reply.id}' data-reply-is-deleted ='#{reply.isDeleted}')
+        .replyNicknameArea
+          span.replyNickname #{reply.nickname}
+          i.levelIcon Lv.#{reply.level}
+
+          .btnReplyGoodBad
+            button.btnReplyGood 뿅
+            button.btnReplyBad 똥
+        if writerNickname == reply.nickname && reply.isDeleted == false
+          .replyArticleTxt#replyArticleTxt.writer !{reply.replyTxt}
+        else
+          .replyArticleTxt#replyArticleTxt !{reply.replyTxt}
+
+        .replyInfo
+          span.articleInfo #{reply.updatedAtMoment}
+          if nickname == reply.nickname && reply.isDeleted == false
+            span.articleInfo &nbsp|
+            button.police 신고
+          if reply.isDeleted == false
+            button(onclick='answerToggle(this)').answerEdit 답글
+          if nickname == reply.nickname && reply.isDeleted == false
+            button(onclick='openPopup($(this).parent().parent());$("#forumInfo").data("replyId", "#{reply.id}")').replyEdit 삭제
+            button(onclick='replyEdit(this)').replyEdit 수정
+
+      - // 댓글 글쓰기 화면
+      .answerWriteArea#replyWriteArea
+        if (isSignedIn)
+          textarea(placeholder='답글을 입력하세요.' onkeyup="checkTextArea(this)").writeAnswer#writeReply
+        else
+          textarea(placeholder='로그인 먼저하기' onclick="location.href='/sign/in' ").writeAnswer#writeReply
+
+        .answerWriteInfo
+          .replyLetterCheck
+            .checkLenInfo#checkLenInfo 0
+            .totalLength / 300
+          button(onclick='replySubmit(this,"answer1")' data-reply-num='#{reply.reply_num}').replySubmitBtn#replySubmitBtn 작성완료
+
+
+  .answerReply
+
+    - // 이제 답글 표시하자
+    each ar, i in reply.answerArr
+      .answerArea
+        .answerIcon ㄴ
+        .answerArticleArea(data-id='#{ar.id}' data-reply-is-deleted ='#{ar.isDeleted}')
+          .replyNicknameArea
+            span.replyNickname #{ar.nickname}
+            i.levelIcon Lv.#{ar.level}
+
+            .btnReplyGoodBad
+              button.btnReplyGood 뿅
+              button.btnReplyBad 똥
+          if writerNickname == ar.nickname && ar.isDeleted == false
+            .replyArticleTxt#replyArticleTxt.writer !{ar.replyTxt}
+          else
+            .replyArticleTxt#replyArticleTxt !{ar.replyTxt}
+
+          .replyInfo
+            span.articleInfo #{ar.updatedAtMoment}
+            if nickname == ar.nickname && ar.isDeleted == false
+              span.articleInfo &nbsp|
+              button.police 신고
+            if ar.isDeleted == false
+              button(onclick='answerToggle(this)').answerEdit 답글
+            if nickname == ar.nickname && ar.isDeleted == false
+              button(onclick='openPopup($(this).parent().parent());$("#forumInfo").data("replyId", "#{ar.id}")').replyEdit 삭제
+              button(onclick='replyEdit(this, "answer2")').replyEdit 수정
+
+        - // 답글 글쓰기 화면
+        .answerWriteArea#replyWriteArea
+          if (isSignedIn)
+            .toWriter @#{ar.nickname}
+            textarea(placeholder='답글을 입력하세요.' onkeyup="checkTextArea(this)").writeAnswer#writeReply
+          else
+            textarea(placeholder='로그인 먼저하기' onclick="location.href='/sign/in' ").writeAnswer#writeReply
+          .answerWriteInfo
+            .replyLetterCheck
+              .checkLenInfo#checkLenInfo 0
+              .totalLength / 300
+            button(onclick='replySubmit(this,"answer2")' data-reply-num='#{reply.reply_num}').replySubmitBtn#replySubmitBtn 작성완료
+
+- // 댓글 페이징.
+nav.replyNav
+  ul
+    li
+      if rePage <= 1
+        a.fa.fa-angle-left.previousRePage.invisible
+      else
+        a(href='javascript:;' onclick='naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",#{rePage-1},#{reStep},#{reCount})').fa.fa-angle-left.previousRePage
+
+    li.navPagingWrap
+      input(type='number' name='title' value='#{rePage}' ).inputRePage
+      button(onclick='var navRePage=$(this).prev().val();naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",navRePage,#{reStep},#{reCount})').fa.fa-search.moveRePage
+
+    - // 대부분 forum.jade와 같으나 아래 naviRePageFun()안에 f.id가 articleId로 바뀐 걸 기억하자.
+    li
+      if (rePage * reStep) < reCount
+        a(href='javascript:;' onclick='naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",#{rePage+1},#{reStep},#{reCount})').fa.fa-angle-right.forwardRePage
+      else
+        a.fa.fa-angle-right.forwardRePage.invisible
+
+
+
+    li
+      if (rePage * reStep) < reCount
+        - var lastRePage = Math.ceil( reCount / reStep );//마지막 댓글 페이지
+        a(href='javascript:;' onclick='naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",#{lastRePage},#{reStep},#{reCount})').lastRePage 끝
+
+      else
+        a.lastRePage.invisible

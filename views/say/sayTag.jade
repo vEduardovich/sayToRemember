@@ -1,0 +1,257 @@
+extends ../layout
+
+block github
+  .mainWrap
+    - var thisYear    = new Date().getFullYear();
+    - var totalCount  = 0;
+
+block popup
+  .popup
+    - // 옵션 박스 안에서 Modify를 클릭했을 때 뜨는 팝업 창
+    .mfp-hide.modifyDialog#modifyDialog
+      .modifyTitle #{__('sayEdit')}
+      textarea(placeholder="#{__('sayTextboxPlaceholder')}" onkeyup='checkTextArea(this)').form-control.engTxtarea#engTxtareaModify
+      .modifyBtnWrap
+        a(href='javascript:;' onclick='optSelectTag()')#optSelectTag
+          i(data-tag-idx='').tagInfo
+        a(href='javascript:;').btnOK#modifyOK #{__('sayBtnSayv')}
+        //- a(href='javascript:;' onclick="areYouSure();").btnNO#modifyNO Cancel
+        .totalLength / 300
+        .checkLenInfo 0
+
+
+    - // 글 안의 옵션 클릭했을 때 뜨는 팝업 창
+    ul.optBox
+      .optXIcon x
+      li.optList
+        a(href='javascript:;' onclick='optModify()' )#optModify #{__('sayBtnModify')}
+      li.optList
+        a(href='javascript:;' )#optDelete #{__('sayBtnDelete')}
+
+      - // tag페이지는 다른페이지와 다르게 data-sen-tag-name 를 추가한다. 염두하자.
+      input(hidden data-sen-id data-nickname='#{userNickname}' data-my-nickname='#{nickname}' data-user='#{user}' data-sen-by-date-id data-sen-id-mp3 data-sen-tag-idx data-sentence data-sen-tag-name="#{userTags[searchingTagIdx]}" data-tag-where)#senInfo
+      input(hidden data-page='#{pageModel.page}' data-by-date-step='#{pageModel.byDateStep}' data-skip-by-date='#{pageModel.skipByDate}' data-total-bydate-count='#{pageModel.totalBydateCount}' data-total-page='#{pageModel.totalPage}' data-new-bydate=0)#pageInfo
+
+
+    - // 카테고리를 클릭했을 때 뜨는 팝업 창
+    nav.mfp-hide.tagList#tagList
+      .tagTitle #{__('msgSelectCategory')}
+      ul.tagWrapper
+        li.tagLi
+          a(href='javascript:;' onclick='chooseTag(this)' data-tag-idx='#{0}').tagItem #{userTags[0]}
+        - // 카테고리가 3개일때는 아래와 같이 만든다. 확장성을 염두함. 180419
+        each _, idx in Array(3)
+          li.tagLi
+            if userTags[idx+1]
+              a(href='javascript:;' onclick='chooseTag(this)' data-tag-idx='#{idx+1}').tagItem #{userTags[idx+1]}
+              a(href='javascript:;' onclick='tagRemove(this)' data-tag-idx='#{idx+1}')
+                i.glyphicon.glyphicon-remove.tagRemove
+              a(href='javascript:;' onclick='tagModify(this)' data-tag-idx='#{idx+1}')
+                i.glyphicon.glyphicon-pencil.tagModify
+            else
+              input(type='text' placeholder="#{__('sayCategroyPlaceholder')}" onkeypress='tagSaveEnter(event, this)').makeTag
+              a(href='javascript:;' onclick='tagSave(this)' data-tag-idx='#{idx+1}')
+                i.glyphicon.glyphicon-ok.tagSave
+
+
+    - // 글삭제 버튼을 눌렀을 때 뜨는 팝업 창
+    nav.mfp-hide.deletePopup#deletePopup
+      .deletePopupTitle #{__('sayPopupDelete')}
+      a(href='javascript:;' onclick='yesMsgPopup()').yesBtn #{__('sayBtnDelete')}
+      a(href='javascript:;' onclick='noMsgPopup()').noBtn #{__('sayBtnCancel')}
+
+    - // 맨위로 이동
+    a(href='javascript:window.scrollTo(0, 0);').fa.fa-angle-up.navMoveTop
+
+block categorySearch
+  .categorySearch
+    nav.categorySearchWindow(data-searching-tag-idx='#{searchingTagIdx}')
+      ul
+        .categorySearchTitle #{__('category')}
+        li
+          a(href='/'+userNickname data-tag-idx='#{0}').categorySearchItem #{__('sayCategoryPopupAll')}
+        each _, idx in Array(3)
+          if userTags[idx+1]
+            li
+              a(href='/'+userNickname+'/tag/#{idx+1}?title=#{userTags[idx+1]}' data-tag-idx='#{idx+1}').categorySearchItem #{userTags[idx+1]}
+          else
+            li
+              a(href='/'+userNickname+'/tag/#{idx+1}?title=#{userTags[idx+1]}' data-tag-idx='#{idx+1}') #{userTags[idx+1]}
+    ul.categorySearchWindow
+      li
+        a(href='/'+userNickname+'/love').categorySearchLove
+          span.glyphicon.glyphicon-heart-empty
+          span &nbsp; Love
+      li
+        a(href='/'+userNickname+'/profile').categorySearchProfile
+          span.glyphicon.glyphicon-user
+          span &nbsp; #{__('sayCategoryPopupProfile')}
+
+block subhead
+  link(rel='canonical' href='https://str.himion.com/#{userNickname}/tag/#{searchingTagIdx}')
+  if (aSentence[0] != null)
+    title #{userNickname}'s #{userTags[searchingTagIdx]}
+    meta(name='description' content='#{aSentence[0].engTxt}')
+
+    meta(property='og:locale'       content='ko_KR')
+    meta(property='og:type'         content='article')
+    meta(property='article:published_time'  content='#{aSentence[0].createdAt}')
+    meta(property='article:author'  content='#{userNickname}')
+    - // 아래 title과 description과 href는 tag에만 있는 고유 정보다
+    meta(property='og:title'        content="#{userNickname}'s #{userTags[searchingTagIdx]}")
+    meta(property='og:description'  content='#{aSentence[0].engTxt}')
+    meta(property='og:url'          content='https://str.himion.com/#{userNickname}/tag/#{searchingTagIdx}')
+    meta(property='og:site_name'    content='세이 투 리멤버')
+    meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+    meta(property='og:image:width'  content='192')
+    meta(property='og:image:height' content='192')
+
+    meta(property='twitter:locale'  content='ko_KR')
+    meta(property='twitter:type'    content='article')
+    meta(property='twitter:card'    content='summary')
+    meta(property='twitter:url'     content='https://str.himion.com/#{userNickname}/tag/#{searchingTagIdx}')
+    meta(property='twitter:site_name' content='세이 투 리멤버')
+    meta(property='twitter:title'   content="#{userNickname}'s #{userTags[searchingTagIdx]}")
+    meta(property='twitter:description'  content='#{aSentence[0].engTxt}')
+    meta(property='twitter:creator' content='#{userNickname}')
+    meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+    meta(property='twitter:image:width'  content='192')
+    meta(property='twitter:image:height' content='192')
+
+block subScript
+  script(src='/js/say/say_client.js')
+  script(src='/js/say/say_client_popup.js')
+  script(src='/js/say/say_client_play.js')
+  script(src='/js/say/say_client_design.js')
+
+  link(rel='stylesheet' type='text/css' href='/css/say.css')
+  link(rel='stylesheet' type='text/css' href='/css/say_dashboard.css')
+
+block content
+
+  append popup
+  append github
+  append categorySearch
+
+
+  - // content 상단
+  .frame
+    .contents
+      .upperWrap
+        .ciWrap
+          img(src='/img/ci.svg' title="#{__('tooltipCI')}" alt='CI' onclick="ciClick(this)" data-placement="right").ciIcon.tooltipUp
+
+        audio(src='' ).speech#speech
+
+      .optFrame
+        .optWrap
+          label(for='optEng' title="#{__('tooltipHideEng')}" data-placement="top").tooltipUp
+            span.glyphicon.glyphicon-check#optEng
+            span.optEng &nbsp;Eng
+          label(for='optKor' title="#{__('tooltipHideKor')}" data-placement="top").tooltipUp
+            span.glyphicon.glyphicon-check#optKor
+            span.optKor &nbsp;Kor
+        a(href='javascript:;' onclick='searchTag()').searchTag#searchTag
+          label(for='searchTagItem')
+            span.searchTagItem All
+            span.glyphicon.glyphicon-collapse-down#searchTagItem
+
+      - // content 하단
+      .contentWrap
+        .day
+          .upperDay
+            a(href='javascript:;' onclick="senSort(this)" data-sort='#{senSort}')
+              if senSort
+                span(data-placement="right" title="#{__('tooltipSorting')}").glyphicon.glyphicon-sort-by-attributes.senSort.tooltipUp
+              else
+                span(data-placement="right" title="#{__('tooltipSortingAlt')}").glyphicon.glyphicon-sort-by-attributes-alt.senSort.tooltipUp
+            span.createdAt #{userTags[searchingTagIdx]} Category
+
+            - var senCount;
+            if pageModel.totalBydateCount >= pageModel.page * pageModel.byDateStep
+              - senCount = pageModel.byDateStep;
+            else
+              - senCount = pageModel.totalBydateCount - (pageModel.page-1) * pageModel.byDateStep;
+            span.countSentence.badge #{senCount}
+            //- span.countSentence.badge #{pageModel.totalBydateCount}
+
+            a(href='javascript:;' onclick="speak(this,'playTotal')" data-mp3s='#{mp3s}' data-ids='#{senIds}').speakIconBig.glyphicon.glyphicon-volume-down.forMp3s
+            a(href='javascript:;' onclick="speak(this,'repeatTotal')" data-mp3s='#{mp3s}' data-ids='#{senIds}').repeatIconBig.glyphicon.glyphicon-refresh.forMp3s
+
+          .inferiorDay
+            if aSentence == ''
+              .aSen
+                .senWrap
+                  p #{__('msgNoSentence')}
+
+            each item, idx in aSentence
+              .aSen
+                .frontIcons
+                  if user == 'owner' || userNickname == 'everyone'
+                    a(href='javascript:;' onclick='openOpt(this)' data-placement="right" data-item-id='#{item._id}' data-item-by-date='#{item.byDate_id}' data-file='#{item.mp3}' title="#{__('tooltipSenModifyDelete')}").glyphicon.glyphicon-option-vertical.optionIcon.tooltipUp
+
+                    if item.heart[0]
+                      if !item.heart[1]
+                        - // 글의 주인만 heart on했을 때 who = 0
+                        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=0 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}" ).heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                      else
+                        - // 글의 주인과 다른 사람도 1명 이상 heart on했을 때 who = 1
+                        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=1 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                    else
+                      - // 글의 주인은 heart off하고 다른 사람만 1명 이상 heart on했을 때, who=2
+                      if item.heart[1]
+                        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length -1}' data-who=2 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+                        - // 아무도 heart on 하지 않았을 때, who = 3
+                      else
+                        - // 인덱스 0에 null이 있을 경우 실제 데이터가 없어도 length가 1로 잡히기 때문에
+                        - if (item.heart[0] == null) item.heart.length = 0;
+                        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=3 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+
+
+                    - // 다른 사람의 페이지에 방문했을 때
+                  else if user == 'other'
+                    - var checking = 0;
+
+                    each heart, idx in otherHearts
+                      - // 다른 사람의 페이지에 내가 heart on한 문장이 있고
+                      if heart.sen_id.toString() == item._id.toString()
+                        if item.heart[0]
+                          - // 해당 문장을 소유자도 heart했다면
+                          a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=4 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                        else
+                          if item.heart[2]
+                            - // 해당 문장을 소유자는 heart 안하고 방문자는 heart하고 다른 누군가도 heart했을 때(최소 heart 2개 이상)
+                            a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length-1}' data-who=5 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                          else
+                            - // 해당 문장을 소유자는 heart 안하고 방문자만 heart하고 아무도 heart X을 경우
+                            a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length-1}' data-who=6 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                        - checking = 1;
+                        - break;
+
+
+                    if !checking
+                      - // 페이지를 방문한 사람이 heart하지 X
+                      if item.heart[0]
+                        - // 해당 문장을 소유자가 heart했다면
+                        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=7 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+                      else
+                        if item.heart[1]
+                          - // 해당 문장을 소유자, 방문자 모두 heart X, 하지만 다른 누군가가 heart했을
+                          a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length-1}' data-who=8 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+                        else
+                          - // 아무도 heart X
+                          - if (item.heart[0] == null) item.heart.length = 0;
+                          a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=9 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+
+
+                .senWrap
+                  div(onclick='senTxtVisible(this)' data-clicked='#{item.clicked}' data-other-clicked='#{item.other_clicked}' data-sen-num='#{item.sen_num}').senTxt.senTxtVisible #{item.engTxt}
+                  div(onclick='senKorTxtVisible(this)').senKorTxt.senTxtVisible #{item.korTxt}
+                    i.tagInfo #{item.updatedAt_local}
+                .backIcons
+                  a(href='javascript:;' onclick ="speak(this,'repeatOne')" data-item-id='#{item._id}' data-item-by-date='#{item.byDate_id}' data-file='#{item.mp3}').repeatIconSmall.glyphicon.glyphicon-refresh
+                  a(href='javascript:;' onclick ="speak(this,'playOne')" data-item-id='#{item._id}' data-item-by-date='#{item.byDate_id}' data-file='#{item.mp3}').speakIconSmall.glyphicon.glyphicon-volume-down
+
+    if pageModel.totalBydateCount > ( pageModel.page * pageModel.byDateStep )
+      -// moreSay()함수는 일반 페이지와 공통으로 사용하도록 만들었다 18.05.05
+      a(href='javascript:;' onclick='moreSay(this)').moreBtn#moreBtn more ▽

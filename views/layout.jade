@@ -1,0 +1,89 @@
+doctype html
+
+head
+  block subhead
+
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name="theme-color" content="#000")
+  meta(name="mobile-web-app-capable" content="yes")
+  meta(name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com")
+  meta(name='viewport', content='width=device-width, initial-scale=1', charset='utf-8')
+  meta(name="robots" content="index, follow")
+
+  link(rel="shortcut icon" type="image/ico" href="/img/icon/favicon.ico")
+  link(rel="icon" type="image/jpeg" sizes="192x192" href="/img/icon/192x192.jpg")
+  link(rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+  link(rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+  link(rel='stylesheet' type='text/css' href='/css/layout.css')
+  link(rel='stylesheet' type='text/css' href='/css/magnific-popup.css')
+  
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js')
+  script(async src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+  script(src='/js/gtag.js')
+  script(src='/js/jquery.color-2.1.2.min.js')
+  script(src='/js/jquery.magnific-popup.min.js')
+  script(src='/js/say/say_client_popup.js')
+  script(src='/js/utils_client.js')
+  script(src='/js/layout_client.js')
+
+  block subScript
+
+body
+  header
+    nav.navWrap
+      .navibar
+        - // jade에서 input의 value에 값을 넣을 때 아래와 같이 쓸 수 있다.
+        input(type='hidden' value='#{isSignedIn}' )#isSignedIn
+
+        - // 모바일 폰에서 카테고리 팝업 - 로그인
+        ul.optCategory
+          if (isSignedIn)
+            li
+              a(href='/'+nickname data-tag-idx='#{0}').categoryList.categorySay
+                span.glyphicon.glyphicon-pencil
+                span &nbsp; Write
+            li
+              a(href='/'+nickname +'/love').categoryList.categoryLove
+                span.glyphicon.glyphicon-heart
+                span &nbsp; Love
+            li
+              a(href='/'+nickname +'/profile').categoryList.categoryMyPage
+                span.fa.fa-address-book
+                span &nbsp; #{__('profile')}                  
+
+            li
+              a(href='/sign/out').categoryList.categorySign #{__('signOut')}
+            li
+              //- PC용 Say아이콘 보이기. 모바일에서는 위에 .categorySay 를 사용.
+              a(href='/'+nickname +'/profile' title="#{__('profile')}" data-placement="bottom").categoryMyPagePC.tooltipUp
+                span.fa.fa-address-book             
+              a(href='/'+nickname data-tag-idx='#{0}' title="#{__('write')}" data-placement="bottom").categorySayPC.tooltipUp
+                span.glyphicon.glyphicon-pencil
+              a(href='/'+nickname +'/love' title="#{__('love')}" data-placement="bottom").categoryLovePC.tooltipUp
+                span.glyphicon.glyphicon-heart
+          else
+            - // 모바일 폰에서 카테고리 팝업 - 비로그인
+            li
+              a(href='/sign/in').categoryList.categorySign #{__('signIn')}
+
+        a(href='/f/general-discussion' title="자유게시판" data-placement="bottom").material-icons.naviForum.tooltipUp#naviForum chat
+        a(href='javascript:;').glyphicon.glyphicon-grain.naviOpt.naviOptOff#naviOpt
+        a(href='/').bi#mainBtn Say to remember
+
+  block content
+
+  block foot
+    footer.footerClass
+      .langPack
+        a(href='javascript:;' onclick="setCookie('langPack', 'kr', 365*10);location.reload();").lang.langKor
+          img(src='/img/kr.svg' alt='Select Korean')
+          span 한국어
+        a(href='javascript:;' onclick="setCookie('langPack', 'en', 365*10);location.reload();").lang.langEng
+          img(src='/img/en.svg' alt='Select English')
+          span English
+      h5
+        span © 2018&nbsp;
+        a(href='https://wendy.himion.com' target='_blank' title='Go to Wendy').linkDiary Himion, Inc.
+        |  #{__('vision')}
+      h5 with@himion.com,

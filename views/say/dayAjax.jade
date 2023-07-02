@@ -1,0 +1,54 @@
+- // 새로운 날이 시잘될 때 문장 처리 ajax
+- // 날짜와 문장을 함께 추가
+.day
+  .upperDay
+    input(hidden value=mp3s).mp3sInput
+
+    a(href='javascript:;' onclick="senSort(this)" data-sort='#{senSort}' data-item-by-date='#{byDate_id}')
+      if senSort
+        span(data-placement="right" title="#{__('tooltipSorting')}").glyphicon.glyphicon-sort-by-attributes.senSort.tooltipUp
+      else
+        span(data-placement="right" title="#{__('tooltipSortingAlt')}").glyphicon.glyphicon-sort-by-attributes-alt.senSort.tooltipUp
+
+    button(data-clipboard-text='https://str.himion.com/#{userNickname}/day/#{strDate}' data-total_clicked='#{total_clicked}' data-total_otherClicked='#{total_other_clicked}' data-toggle="popover" data-placement="bottom" data-content="Copied!").createdAt.linkAddress.tooltipUp #{strDateTxt}
+    span.countSentence.badge #{count}
+
+    a(href='javascript:;' onclick="speak(this,'playTotal')" data-item-by-date='#{byDate_id}' data-mp3s='#{mp3s}' data-sort='#{senSort}').speakIconBig.glyphicon.glyphicon-volume-down.forMp3s
+    a(href='javascript:;' onclick="speak(this,'repeatTotal')" data-item-by-date='#{byDate_id}' data-mp3s='#{mp3s}' data-sort='#{senSort}').repeatIconBig.glyphicon.glyphicon-refresh.forMp3s
+
+
+
+  .inferiorDay
+    .aSen
+      .frontIcons
+        a(href='javascript:;' onclick='openOpt(this)' data-item-id='#{_id}' data-placement="right" data-item-by-date='#{byDate_id}' data-file='#{mp3}' title='수정 및 삭제').glyphicon.glyphicon-option-vertical.optionIcon.tooltipUp
+
+        if heart[0]
+          - // dayAjax는 항상 주인만 실행이 가능하다!
+          if !heart[1]
+            - // 글의 주인만 heart on했을 때. who = 0
+            a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length}' data-who=0 data-placement="right" title="#{heart.length+__('tooltipMsgLove')}" ).heartIcon.glyphicon.glyphicon-heart.tooltipUp
+            - // 글의 주인과 다른 사람도 1명 이상 heart on했을 때 who = 1
+          else
+            a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length}' data-who=1 data-placement="right" title="#{heart.length+__('tooltipMsgLove')}" ).heartIcon.glyphicon.glyphicon-heart.tooltipUp
+        else
+          - // 글의 주인은 heart off하고 다른 사람만 1명 이상 heart on했을 때
+          if heart[1]
+            a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length -1}' data-who=2 data-placement="right" title="#{heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+            - // 아무도 heart on 하지 않았을 때
+          else
+            - if (heart[0] == null) heart.length = 0;
+            a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length }' data-who=3 data-placement="right" title="#{heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+
+
+      .senWrap
+        div(onclick='senTxtVisible(this);' data-clicked='#{clicked}' data-other-clicked='#{other_clicked}' data-sen-num='#{sen_num}').senTxt.senTxtVisible #{engTxt}
+        div(onclick='senKorTxtVisible(this);').senKorTxt.senKorTxtVisible #{korTxt}
+          if tagIdx
+            i(data-tag-idx='#{tagIdx}').tagInfo #{tagName}
+      .backIcons
+        
+        a(href='javascript:;' onclick ="speak(this,'repeatOne')" data-item-id='#{_id}' data-item-by-date='#{byDate_id}' data-file='#{mp3}').repeatIconSmall.glyphicon.glyphicon-refresh
+        a(href='javascript:;' onclick ="speak(this,'playOne')" data-item-id='#{_id}' data-item-by-date='#{byDate_id}' data-file='#{mp3}').speakIconSmall.glyphicon.glyphicon-volume-down
+
+        input(type='hidden' data-is-include-date=isIncludeDate)#hiddenAjaxInfo

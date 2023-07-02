@@ -1,0 +1,54 @@
+{
+  "name": "saytoremember",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  
+  "dependencies": {
+    "aws-sdk": "^2.357.0",
+    "body-parser": "^1.18.3",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
+    "detect-browser": "^3.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "forcedomain": "^1.0.0",
+    "i18n": "^0.8.3",
+    "ip": "^1.1.5",
+    "jade": "^1.11.0",
+    "moment": "^2.22.2",
+    "mongod": "^2.0.0",
+    "mongoose": "^5.12.14",
+    "mongoose-sequence": "^5.3.1",
+    "multer": "^1.3.1",
+    "multer-s3": "^2.7.0",
+    "natural": "^0.6.1",
+    "node-schedule": "^1.3.0",
+    "nodemailer": "^4.6.8",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth2": "^0.1.6",
+    "passport-local": "^1.0.0",
+    "pbkdf2-password": "^1.2.1",
+    "request": "^2.88.0",
+    "rimraf": "^2.6.2",
+    "say": "^0.11.0",
+    "sha256": "^0.2.0",
+    "update": "^0.7.4",
+    "useragent": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "go" : "drive push -quiet ./",
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "/15g/Git/str",
+    "name": "str"
+  },
+  "keywords": [
+    "Say to Remember"
+  ]
+}

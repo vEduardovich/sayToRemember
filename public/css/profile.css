@@ -1,0 +1,83 @@
+body{background-color:#000;}
+
+/* .categoryList{color:#333;} */
+/* span.glyphicon.glyphicon-pencil{color:#333;} */
+/* .categoryList:hover, .categoryList:focus {color:#333;font-weight:bold; } */
+.contents{overflow:hidden;margin:0px auto;width:600px;background-color:#000;color:#eee;}
+.personalInfo {overflow:hidden;width:100%;padding:5% 5% 2% 5%;margin-bottom:10px;}
+.profileImgWrapper{float:left;width:30%;max-width:100px;}
+.profileImg{width: 100px;height:100px;border-radius:2px;transition:all 1s;}
+.profileImg:hover {transform: rotate(5deg);}
+
+
+/* .tooltip {position: fixed;} */
+.tooltipUp + .tooltip > .tooltip-inner {background-color: #73500B;}
+.tooltipUp + .tooltip > .tooltip-arrow {border-bottom-color:#73500B; }
+
+
+.profileNickname{float:left;width:60%;margin:5px 0 0 10px;font-size:1.5em;font-weight:bold;}
+.profileEtcWrapper{float:left;width:65%;}
+.profileSex{width: 50px;margin-left:10px;}
+.profileAges{width: 50px;}
+.profileLevel {position:relative;font-style: normal;height:12px;padding:1px 3px 0;top:-3px;border:1px solid #aaa;border-radius:2px;background:#aaa;line-height:14px;font-size:10px;margin-left:10px;cursor: pointer;color:#000;}
+.levelUp{color:red;font-size:0.6em;}
+.profileSentence {float:left;width: 65%;margin:5px 0 0 10px;}
+
+/* Concept Image */
+.conceptImgProfileWrapper {float:right;overflow:hidden; width:28%;margin:2% 2% 2% 1%;}
+.conceptImgProfile{width: 100%;height: auto; border-radius:2px;}
+
+.conceptImgProfileWrapper>p{width: 96%;text-align: right;color:#999;margin:2px;font-size:0.8em;}
+.conceptImgPainterProfile, a.conceptImgPainterProfile:hover, a.conceptImgPainterProfile:focus {display:block;width: 96%;text-align: right;color:#999;margin:2px;font-size:0.8em;}
+
+/* Total Score */
+.mainScore>thead>tr>th{text-align: center;}
+.normalScore>thead>tr>th{text-align: center;}
+.mainScore {float:left;margin:2%;border-collapse: collapse; padding:10px;margin-bottom:15px;color:#eee;width: 65%;text-align: center;}
+.scoreCaption{margin:0 0 0 2%;color:#eee;padding:0;font-weight:bold;}
+tbody>tr {height:25px;}
+tbody>tr:hover, tbody>tr:focus{background-color:#030;}
+th{border:1px solid #0f0; color: #eee;}
+td>a{color:#eee;}
+td>a:hover, .statScore>a:focus{color:#eee;}
+.totalScoreScript{height:50px;font-size:1.3em;color:#0f0;}
+.totalScore>div>span:nth-child(1){font-size:1.5em;font-weight:bold;color:#0f0;}
+.totalScore>div>span:nth-child(2){font-size:0.8em;}
+.totalScoreRank>div>span:nth-child(1){font-size:1.1em;font-weight:bold;color:#0f0;}
+.totalScoreRank>div>span:nth-child(2){font-size:0.8em;}
+.statScore{padding-right:3px}
+/* .statScore>div>span:nth-child(1){color:#0f0;} */
+.statScore>div>span:nth-child(2){font-size:0.8em;}
+.statRank{padding-left:2px;}
+/* .statRank>div>span:nth-child(1){font-weight:bold;color:#0f0;} */
+.statRank>div>span:nth-child(2){font-size:0.8em;}
+/* tr:nth-child(even){border-bottom:2px solid #0f0; color: #eee;} */
+
+
+/* 일반 데이터 */
+.normalScore{float:left;margin:2%;border-collapse: collapse;border-radius:2px;padding:10px;margin-bottom:20px;color:#eee;width: 65%;text-align: center;}
+td.statScript{max-width:220px;}
+a.statScriptLink{display:block;overflow: hidden; text-overflow: ellipsis;white-space: nowrap; }
+/*미디어 쿼리*/
+@media screen and (min-width:0px) and (max-width: 1024px){
+  .contents{width:99%}
+  ul.optCategory{border:2px solid #0F0}
+  
+}
+
+@media screen and (min-width:0px) and (max-width: 679px){
+  /* profile image */
+  .profileImg{width: 80px;height:80px;border-radius:4px;}
+
+  .conceptImgProfileWrapper>p {display:none;}
+  /* 일반 데이터 */
+  .normalScore{width: 96%;margin:30px 0;}
+  .statScript{max-width:160px;}
+
+  /* 모바일에서는 등락표시 안되도록 */
+  .totalScore>div>span:nth-child(2){display:none;}
+  .totalScoreRank>div>span:nth-child(2){display:none;}
+  .statScore>div>span:nth-child(2){display:none;}
+  .statRank>div>span:nth-child(2){display:none;}
+
+}

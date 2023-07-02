@@ -1,0 +1,122 @@
+/*포기하지 않는 자에게 꿈은 반드시 찾아온다.*/
+/*나는 세계를 바꿀 것이다. 다음 시대, 다음 흐름, 다음 인류의 창조자가 될 것이다.*/
+@charset 'utf-8';
+a { color: #000; text-decoration: none; }
+a:hover, a:focus{text-decoration: none; }
+ul, li{list-style: none;margin:0px;padding:0px;}
+p{margin:0;}
+header{height:50px;}
+
+
+button {background: none; border: 0; color: inherit; font: inherit; line-height: normal;overflow: visible;padding: 0;}
+/* body{font-family:Georgia, 'FreeSerif',times, 'NanumGothic','맑은 고딕';font-size: 1.7em;} */
+body{font-family:Georgia, times, 'NanumGothic', serif, '맑은 고딕';font-size: 1.5em;}
+
+
+/*상단 컨텐츠 --시작*/
+.frame{overflow:hidden;width:620px;margin:0px auto;}
+.contents{ background-color:#FFF;margin:0px auto;}
+
+
+/*상단바*/
+.navWrap {position:fixed;width: 100%; height: 50px; background-color:#000;z-index:100;font-family: times;}
+.navibar {overflow:hidden; width:850px; margin:0px auto;}
+a.bi {display:block;position:relative;float:left; margin:12px 5px;width:180px;font-weight:bold;  font-size: 1.3em; color: #0f0;}
+
+
+/* a.optSayIcon{display:none;} */
+a.naviForum{display:block;left:220px; position:relative; float:left; width: 50px; height: 50px;padding:12px;font-size:1.6em; color: #bbb;transition:all 0.2s;}
+a.naviOpt{display:none;}
+
+
+/* 카테고리 팝업 시작 */
+.categoryList {display:block;position:relative;float:right;padding:16px 5px;color:#bbb;font-size:1.2em;}
+.categoryList:hover, .categoryList:focus {color:#eee; }
+.categorySay{display:none;}
+.categoryLove{display:none;}
+.categoryMyPage{display:none;}
+
+.categorySayPC{display:block;position:relative;float:right;padding:16px 5px 0;font-size:1.4em;}
+span.glyphicon.glyphicon-pencil{color:#bbb;}
+span.glyphicon.glyphicon-pencil:hover,span.glyphicon.glyphicon-pencil:focus{color:#eee;}
+.categoryLovePC{display:block;position:relative;float:right;padding:16px 20px 0;color:#bbb;font-size:1.4em;}
+.categoryLovePC:hover,.categoryLovePC:focus{color:#eee;}
+.categoryMyPagePC{display:block;position:relative;float:right;padding:16px 20px 0;color:#bbb;font-size:1.4em;}
+.categoryMyPagePC:hover,.categoryMyPagePC:focus{color:#eee;}
+.categorySub{display:none;}
+
+
+a.aboutPC {display:block;position:relative;float:left;padding:18px 0px;width:40px;height:50px;color:#bbb;}
+a.aboutPC:hover, a.aboutPC:focus { color:#eee;}
+
+
+/*글삭제 팝업창 - 모든 화면에서 사용하기 때문에 say에서 layout으로 위치 변경. 18.10.10*/
+.deletePopup{position:relative; padding:15px;width:auto; max-width:350px;height:120px; margin: 5px auto;border-radius:2px; background-color:#eee;box-shadow:0px 1px 3px rgba(0,0,0, 0.8),0 1px 3px rgba(0,0,0, 0.075); }
+.deletePopupTitle{position:relative; float:left; width:260px;margin:5px; font-weight: bold;border-radius:2px;}
+.yesBtn {font-size:1em;color:#fff;float:right;margin-top:25px;margin-right:7px; padding:7px 10px; border-radius:5px;height:35px;text-align:center;background-color:#d65e5e;border:1px solid #eee;}
+.yesBtn:hover, .yesBtn:focus{color:#fff;background-color:#d65e5e;border:1px solid #d65e5e;}
+.noBtn {font-size:1em;float:right;margin-top:25px;margin-right:7px; padding:7px 10px;border-radius:5px;height:35px;text-align:center;background-color:#fff;border:1px solid #eee;}
+.noBtn:hover, .noBtn:focus{color:#000;border:1px solid #fff;}
+/* 카테고리 팝업 끝 */
+
+
+/* 화면 가장 위로 이동 */
+.navMoveTop {position:fixed;width: 40px; height: 40px; border:1px solid #aaa;z-index:30;right:80px; bottom:10px;font-size:40px;color:#aaa;line-height:35px;padding-left:6px;display:none;}
+.navMoveTop:hover, .navMoveTop:focus{color:#aaa;}
+
+/*하단 Footer*/
+.footerClass{ width:100%;bottom:0px; padding-top:5px;padding-bottom:2px;}
+
+.langPack{text-align: center;font-size: 0.8em;margin:10px auto;}
+.lang {color: gray;margin-left:5px; padding:8px 4px; }
+.lang:hover>span {color: gray; }
+.lang:hover{background-color:#eee;border-radius:2px;}
+.langOn{background-color:#eee;border-radius:2px;}
+.lang>span {margin-left:2px;}
+
+.footerClass>h5{text-align: center;font-size: 0.8em;color: gray;margin:5px auto;}
+.footerClass>h5>a{color: #090;}
+.footerClass>h5>a:hover{text-decoration: none;}
+
+
+/*미디어 쿼리*/
+@media screen and (min-width:0px) and (max-width: 1024px){
+
+  /*상단바*/
+  /* a.optSayIcon {display: none;} */
+  a.categorySayPC {display: none;}
+  a.categoryLovePC {display: none;}
+  a.categoryMyPagePC{display:none;}
+
+  .navWrap {position:fixed; width:100%; height: 50px; background-color:#000;}
+  .navibar {overflow:hidden; width:100%; margin:0px auto;}
+
+  a.bi {display:block;position:static;float:none; margin:12px auto;width:160px;font-weight:bold;  font-size: 1.2em; color: #0f0;}
+
+  a.naviOpt {display:block; position:relative; float:right; width: 50px; height: 50px;padding:12px;font-size:1.6em; color: #bbb;transition:all 0.2s;}
+  a.naviOpt:focus { color: #0f0;font-size:1.8em;transform: rotate(20deg);}
+
+  a.naviForum{left:0px;display:block; position:relative; float:left; width: 50px; height: 50px;padding:12px;font-size:1.4em; color: #bbb;}
+  a.naviForum:focus {color: #0f0;}
+
+  /*상단 카테고리 팝업*/
+  ul.optCategory{display:none; position:absolute;top: 52px;right: 2px; border-radius:2px; background-color:#000;padding:5px;box-shadow:0px 1px 3px rgba(0,0,0, 0.8),0 1px 3px rgba(0,0,0, 0.075);z-index:5;}
+  .arrowUp {width: 0;height: 0;border-left: 5px solid transparent;  border-right: 5px solid transparent; border-bottom: 5px solid #000;}
+  /*.optXIcon{position:relative;float:left;width:20px;height:20px; border-radius:10px; margin-top:-15px;margin-left:55px; font-size:1.0em;background-color:#aaa;line-height: 19px;text-indent:6px; cursor: pointer;color:#fff;}*/
+  /* .optCategoryItem{display:block;float:left;position:relative; width: 100px; margin:2px 10px ;} */
+
+
+  .categoryList{display:block;position:relative; float:left;width:140px; margin:8px 10px ;padding:0;color:#bbb;font-size:1.1em;}
+  .categorySay {display:block;position:relative;float:left;width:140px; margin:8px 10px ;padding:0;color:#bbb;font-size:1.1em;}
+
+  .categoryList:hover, .categoryList:focus {color:#eee; }
+  /* .categorySub{display:block;padding-left:20px;font-size:1.0em;} */
+
+
+}
+
+
+@media screen and (min-width:0px) and (max-width: 679px){
+  .frame{width:99%;}
+
+}

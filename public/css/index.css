@@ -1,0 +1,17 @@
+/* .indexCenter{width:600px;margin:10px auto;text-align: center;} */
+.indexLeft{width:700px;margin:10px auto;text-align: left;}
+.indexCenter{width:120px;margin:10px auto;text-align: left;}
+.link{margin:20px auto; width:350px;height:50px;background-color:#333333;color:#FFFFFF;font:1.1em bold;transition:0.5s all; border:none;border-radius:5px;text-align: center;padding-top:7px;font-family:Georgia, times;}
+
+.link:hover, .link:focus{color:#0F0;box-shadow:0 3px 6px rgba(0,0,0,.2),0 3px 6px rgba(0,0,0,.28);text-decoration: none;}
+
+.fbTemp{width:300px;margin:30px auto;}
+
+/*미디어 쿼리*/
+@media screen and (min-width:0px) and (max-width: 1024px){
+    .indexLeft{width:95%;margin:2.5%;text-align: left;}
+}
+
+@media screen and (min-width:0px) and (max-width: 679px){
+    .indexLeft{width:90%;margin:5%;}
+}

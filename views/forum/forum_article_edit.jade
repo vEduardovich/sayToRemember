@@ -1,0 +1,42 @@
+extends ../layout
+
+block subhead
+  link(rel='canonical' href='https://str.himion.com')
+  title #{f.forum_name} 글 수정 하기
+
+block subScript
+  link(rel='stylesheet' type='text/css' href='/css/index.css')
+  link(rel='stylesheet' type='text/css' href='/css/forum_write.css')
+  script(src='/js/forum/tinymce.min.js')
+  script(src='/js/forum/forum_client_write.js')
+
+
+block content
+  input(hidden data-my-nickname='#{nickname}' data-level='#{level}' data-forum-name='#{f.forum_name}' data-forum-num='#{f.forum_num}' data-article-id='#{f.id}' )#forumInfo
+
+  .frame
+      - // 옵션 박스 안에서 Modify를 클릭했을 때 뜨는 팝업 창
+    .mfp-hide.youtubePopup#youtubePopup
+      .youtubePopupTitle 유튜브 영상 추가
+      textarea(placeholder="유튜브 주소를 넣어주세요").form-control.youtubeAddress#youtubeAddress
+      a(href='javascript:;').btnOK#btnOK OK
+
+    .contents
+      .articleWriteWrap 
+        .articleTitleWrapper
+          a(href='javascript:;' onclick='window.history.back();').fa.fa-arrow-left.backward
+          h3.forumName 글쓰기
+          a(href='javascript:;').submitArticle#submitArticleEdit 등록하기
+
+        .articleContentsWrapper
+          input(type='text' name='title' placeholder='제목을 입력하세요' value='#{f.title}' ).articleTitle#articleTitle
+          .writeBtnSet
+            a(href='javascript:;' onclick='youtubePopup()').fa.fa-youtube.uploadYoutube#uploadYoutube
+            a(href='javascript:;' onclick='document.getElementById("imgFile").click();').fa.fa-file-image-o.uploadImage#uploadImage
+
+          textarea(rows = '8' name='article' placeholder='포기하지 않는 자에게 꿈은 반드시 찾아온다.').articleTxtArea#articleTxtArea !{f.article}
+
+          .addMedia
+
+        form(action='' method='post' enctype='multipart/form-data' )#imageForm
+          input(type='file' name='imgFile' accept="image/*" onchange="$('#imageForm').submit(); this.value='';" )#imgFile              

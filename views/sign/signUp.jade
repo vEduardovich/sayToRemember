@@ -1,0 +1,75 @@
+extends ../layout
+
+block subhead
+	link(rel='canonical' href='https://str.himion.com/sign/up')
+	title Say to Remember - #{__('signupWelcomeScript2')}
+	meta(name='description' content='You are creating SayToRemember account')
+	meta(property='og:locale'       content='ko_KR')
+	meta(property='og:type'         content='website')
+	meta(property='og:title'        content="Say to Remember - #{__('signupWelcomeScript2')}")
+	meta(property='og:description'  content='You are creating SayToRemember account')
+	meta(property='og:url'          content='https://str.himion.com/sign/up')
+	meta(property='og:site_name'    content='세이 투 리멤버')
+	meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+	meta(property='og:image:width'  content='192')
+	meta(property='og:image:height' content='192')
+
+	meta(property='twitter:locale'  content='ko_KR')
+	meta(property='twitter:type'    content='website')
+	meta(property='twitter:card'    content='summary')
+	meta(property='twitter:url'     content='https://str.himion.com/sign/up')
+	meta(property='twitter:site_name' content='세이 투 리멤버')
+	meta(property='twitter:title'   content="Say to Remember - #{__('signupWelcomeScript2')}")
+	meta(property='twitter:creator' content='SayToRemember')
+	meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+	meta(property='twitter:image:width'  content='192')
+	meta(property='twitter:image:height' content='192')
+	meta(property='twitter:description'  content='You are creating SayToRemember account')
+
+block subScript
+	link(rel='stylesheet' type='text/css' href='/css/sign.css')
+	script(src='/js/sign_client.js')
+	script.
+
+
+block content
+	.contents
+		.signUpWrap
+			.signUpTitle
+				img(src='/img/icon/120x120.jpg' alt='BI' title='SayToRemember').biIcon
+
+				h4 #{__('signupWelcomeScript1')}
+				h3 #{__('signupWelcomeScript2')}
+
+			.signUpFormWrap
+				.signUpForm
+					.isAlwaysSignInWrap
+						input(type='checkbox' name='isAlwaysSignIn' checked data-toggle='toggle' value='false').isAlwaysSignIn#isAlwaysSignIn
+						label(for='isAlwaysSignIn') #{__('rememberMe')}
+
+					.form-group.formEmail
+						label(for='inputEmail') #{__('email')}
+							span &nbsp;*
+						input(type='email' name ='inputEmail' placeholder="#{__('msgEmail')}").form-control.inputEmail#inputEmailSignUp
+						span.msgScript
+
+					.form-group
+						label(for='inputPwd') #{__('password')}
+							span &nbsp;*
+						input(type='password' name='inputPwd' placeholder="#{__('msgPassword')}").form-control.inputPwd#inputPwdSignUp
+						span.msgScript
+
+					.form-group.genderForm
+						.infoGender #{__('optionInformScript')}
+						label(for='gender') #{__('gender')}
+						.btn-group.genderBtn#genderBtn
+							a(data-toggle='gender' data-title='male').btn.btn-primary.gender.boy#genderBoy #{__('genderMale')}
+							a(data-toggle='gender' data-title='female').btn.btn-primary.gender.girl#genderGirl #{__('genderFemale')}
+						input(type='hidden' name='gender')#genderInfo
+
+					.form-group.birthYearForm
+						label(for='inputBirthYear') #{__('birthYear')}
+						input(type='number' name='inputBirthYear' placeholder="#{__('birthYearPlaceholder')}" maxlength=4 onkeyup='maxLengthCheck(this)').form-control.inputBirthYear#inputBirthYear
+						.signUpInfoBirthYear
+					p #{__('signupPolicyClick')}
+					button.signinSubmit#signUpSubmit #{__('signup')}

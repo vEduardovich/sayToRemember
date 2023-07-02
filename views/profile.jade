@@ -1,0 +1,342 @@
+extends ./layout
+
+block subhead
+  link(rel='canonical' href='https://str.himion.com/#{userNickname}/profile')
+  title #{userNickname}'s Profile Page
+  meta(name='description' content="SayToRemember stats of #{userNickname}")
+
+  meta(property='og:locale'       content='ko_KR')
+  meta(property='og:type'         content='website')
+  meta(property='og:title'        content="#{userNickname}'s Profile Page")
+  meta(property='og:description'  content="SayToRemember stats of #{userNickname}")
+  meta(property='og:url'          content='https://str.himion.com/#{userNickname}/profile')
+  meta(property='og:site_name'    content='세이 투 리멤버')
+  meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='og:image:width'  content='192')
+  meta(property='og:image:height' content='192')
+
+  meta(property='twitter:locale'  content='ko_KR')
+  meta(property='twitter:type'    content='website')
+  meta(property='twitter:card'    content='summary')
+  meta(property='twitter:url'     content='https://str.himion.com/#{userNickname}/profile')
+  meta(property='twitter:site_name' content='세이 투 리멤버')
+  meta(property='twitter:title'   content="#{userNickname}'s Profile Page")
+  meta(property='twitter:description'  content="SayToRemember stats of #{userNickname}")
+  meta(property='twitter:creator' content='#{userNickname}')
+  meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='twitter:image:width'  content='192')
+  meta(property='twitter:image:height' content='192')
+
+
+block subScript
+  script(src='/js/profile_client.js')
+  link(rel='stylesheet' type='text/css' href='/css/profile.css')
+
+block content
+  - // 알고 있다. 초그지같다는걸. 하지만 i18n 모듈의 한계와 나중에 title만 js로 바꾸는 것도 magnific-popup에 먹히지 않는 현실에서 그지가 아니 될 수 없었다 18.08.20
+  - var tooltipGrit = __('tooltipGrit').replace('#{userNickname}', userNickname );
+  - var tooltipHonor = __('tooltipHonor').replace('#{userNickname}', userNickname );
+  - var tooltipIntellect = __('tooltipIntellect').replace('#{userNickname}', userNickname );
+  - var tooltipDaysRecord =__('tooltipDaysRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+  - var tooltipSentencesRecord =__('tooltipSentencesRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+
+  - var tooltipLettersRecord =__('tooltipLettersRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+  - var tooltipPlayedRecord =__('tooltipPlayedRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+  - var tooltipOtherPlayedRecord =__('tooltipOtherPlayedRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+
+  - var tooltipOtherPlayedAvg = __('tooltipOtherPlayedAvg').replace('#{userNickname}', userNickname );
+  - var tooltipOtherPlayedCount = __('tooltipOtherPlayedCount').replace('#{userNickname}', userNickname );
+  - var tooltipLoveRecord =__('tooltipLoveRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+
+  - var tooltipLoveAvg = __('tooltipLoveAvg').replace('#{userNickname}', userNickname );
+  - var tooltipBelovedRecord =__('tooltipBelovedRecord').replace('#{userNickname}', userNickname ).replace('#{thisYear}', thisYear );
+
+  - var tooltipBelovedAvg = __('tooltipBelovedAvg').replace('#{userNickname}', userNickname );
+  - var tooltipBelovedCount = __('tooltipBelovedCount').replace('#{userNickname}', userNickname );
+  - var tooltipCategoryDetailLove = __('tooltipCategoryDetailLove').replace('#{userNickname}', userNickname );
+  - var tooltipMostPlayedSentences = __('tooltipMostPlayedSentences').replace('#{mostPlayed.length}', mostPlayed.length );
+  - var tooltipMostBelovedSentences = __('tooltipMostBelovedSentences').replace('#{mostBeloved.length}', mostBeloved.length );
+  - var tooltipMostWroteWords = __('tooltipMostWroteWords').replace('#{mostStems.length}', mostStems.length );
+
+  .contents
+    .personalInfo
+      .profileImgWrapper
+        img(src='/img/the_cyclops_by_odilon_redon.jpg' alt='profile image').profileImg
+      .profileNickname #{userNickname}
+        i.profileLevel Lv.#{level.stat}
+        span.levelUp #{level.statGap}
+      .profileEtcWrapper
+        span.profileSex #{gender}
+        span.profileAges #{profileAges}
+      .profileSentence Didn't you hear something?
+
+    .conceptImgProfileWrapper
+      img(src='/img/girl.jpg' alt='Portrait of Helene Klimt').conceptImgProfile
+      a(href='https://www.google.co.kr/search?q=Gustav+Klimt&client=ubuntu&hs=BJY&tbm=isch&tbo=u&source=univ&sa=X&ved=2ahUKEwjv0riU6vDcAhUBXbwKHSI6CaMQiR56BAgLEBY&biw=1633&bih=846#imgrc=aL7o07FkUEdgTM:' target='_blank').conceptImgPainterProfile Gustav Klimt
+      p 1898
+    table.mainScore
+      caption.scoreCaption > #{__('profileSummary')}
+      thead
+        tr
+          th #{__('profileProperty')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipRealtimeScore')}").tooltipUp #{__('profileScore')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipProfileMidnight')}").tooltipUp #{__('profileRank')}
+      tbody
+        tr
+          td.totalScoreScript
+            div(data-placement="bottom" title='').tooltipUp #{__('summaryTotal')}
+          td.totalScore
+            div(data-placement="bottom" title="#{__('tooltipTotalScore')}").tooltipUp
+              span #{total.stat}
+              span &nbsp#{total.statGap}
+          td.totalScoreRank
+            div(data-placement="bottom" title="#{__('tooltipTotalRanking')}").tooltipUp
+              span #{total.rank}
+              span &nbsp#{total.rankGap}
+        tr
+          td
+            div(data-placement="bottom" title=tooltipGrit).tooltipUp.statScript #{__('summaryGrit')}
+          td.statScore
+            div(data-placement="bottom" title="#{__('profileScore')}").tooltipUp
+              span #{grit.stat}
+              span &nbsp#{grit.statGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipTotalRanking')}").tooltipUp
+              span #{grit.rank}
+              span &nbsp#{grit.rankGap}
+        tr
+          td
+            div(data-placement="bottom" title=tooltipHonor).tooltipUp.statScript #{__('summaryHonor')}
+          td.statScore
+            div(data-placement="bottom" title="#{__('profileScore')}").tooltipUp
+              span #{honor.stat}
+              span &nbsp#{honor.statGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipTotalRanking')}").tooltipUp
+              span #{honor.rank}
+              span &nbsp#{honor.rankGap}
+        tr
+          td
+            div(data-placement="bottom" title=tooltipIntellect).tooltipUp.statScript #{__('summaryIntellect')}
+          td.statScore
+            div(data-placement="bottom" title="#{__('profileScore')}").tooltipUp
+              span #{intellect.stat}
+              span &nbsp#{intellect.statGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipTotalRanking')}").tooltipUp
+              span #{intellect.rank}
+              span &nbsp#{intellect.rankGap}
+
+    table.normalScore
+      caption.scoreCaption > #{__('profileDetail')} (#{thisYear})
+      thead
+        tr
+          th #{__('profileRecord')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipAvg')}").tooltipUp #{__('profileAvg')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCount')}").tooltipUp #{__('profileCount')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipProfileMidnight')}").tooltipUp #{__('profileRank')}
+      tbody
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipDaysRecord).tooltipUp #{__('detailInformDays')}
+          td.statAvg
+            div(data-placement="bottom" title="#{__('tooltipDaysAvg')}").tooltipUp #{info_days.avg}
+          td.statScore
+            div(data-placement="bottom" title="#{__('tooltipDaysCount')}").tooltipUp
+              span &nbsp#{info_days.count}
+              span /365
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_days.rank}
+              span &nbsp#{info_days.rankGap}
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipSentencesRecord).tooltipUp #{__('profileSentence')}
+          td.statAvg
+            div(data-placement="bottom" title="#{__('tooltipSentencesAvg')}").tooltipUp #{info_sentences.avg}
+          td.statScore
+            div(data-placement="bottom" title="#{__('detailInformSentences')}").tooltipUp
+              span &nbsp#{info_sentences.count}
+              span &nbsp#{info_sentences.countGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_sentences.rank}
+              span &nbsp#{info_sentences.rankGap}
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipLettersRecord).tooltipUp #{__('detailInformLetters')}
+          td.statAvg
+            div(data-placement="bottom" title="#{__('tooltipLettersAvg')}").tooltipUp #{info_letters.avg}
+          td.statScore
+            div(data-placement="bottom" title="#{__('tooltipLettersCount')}").tooltipUp
+              span &nbsp#{info_letters.count}
+              span &nbsp#{info_letters.countGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_letters.rank}
+              span &nbsp#{info_letters.rankGap}
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipPlayedRecord).tooltipUp #{__('detailInformPlayed')}
+          td.statAvg
+            div(data-placement="bottom" title="#{__('tooltipPlayedAvg')}").tooltipUp #{info_played.avg}
+          td.statScore
+            div(data-placement="bottom" title="#{__('tooltipPlayedCount')}").tooltipUp
+              span &nbsp#{info_played.count}
+              span &nbsp#{info_played.countGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_played.rank}
+              span &nbsp#{info_played.rankGap}
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipOtherPlayedRecord).tooltipUp #{__('detailInformOtherPlayed')}
+          td.statAvg
+            div(data-placement="bottom" title=tooltipOtherPlayedAvg).tooltipUp #{info_otherPlayed.avg}
+          td.statScore
+            div(data-placement="bottom" title=tooltipOtherPlayedCount).tooltipUp
+              span &nbsp#{info_otherPlayed.count}
+              span &nbsp#{info_otherPlayed.countGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_otherPlayed.rank}
+              span &nbsp#{info_otherPlayed.rankGap}
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipLoveRecord).tooltipUp #{__('detailInformLove')}
+          td.statAvg
+            div(data-placement="bottom" title=tooltipLoveAvg).tooltipUp #{info_love.avg}
+          td.statScore
+            div(data-placement="bottom" title="#{__('tooltipLoveCount')}").tooltipUp
+              span &nbsp#{info_love.count}
+              span &nbsp#{info_love.countGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_love.rank}
+              span &nbsp#{info_love.rankGap}
+        tr
+          td.statScript
+            div(data-placement="bottom" title=tooltipBelovedRecord).tooltipUp #{__('detailInformBeloved')}
+          td.statAvg
+            div(data-placement="bottom" title=tooltipBelovedAvg).tooltipUp #{info_beloved.avg}
+          td.statScore
+            div(data-placement="bottom" title=tooltipBelovedCount).tooltipUp
+              span &nbsp#{info_beloved.count}
+              span &nbsp#{info_beloved.countGap}
+          td.statRank
+            div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+              span &nbsp#{info_beloved.rank}
+              span &nbsp#{info_beloved.rankGap}
+
+
+    table.normalScore
+      caption.scoreCaption > #{__('profileCategory')}
+      thead
+        tr
+          th
+            div(data-placement="bottom").tooltipUp #{__('category')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCount')}").tooltipUp #{__('profileCount')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCategoryLove')}").tooltipUp #{__('detailInformLove')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCategoryBeloved')}").tooltipUp #{__('detailInformBeloved')}
+
+      tbody
+        each category, idx in categories
+          - // category 이름이 null 일 경우에는 표시 X
+          if category.category != null
+            tr
+              td.statScript
+                a(href='#{"/"+userNickname+"/tag/"+idx}' target='_blank' data-placement="bottom" title="#{__('tooltipCategoryName')}" ).statScriptLink.tooltipUp #{category.name}
+              td.statScore
+                div(data-placement="bottom" title="#{__('tooltipCategoryDetailCount')}").tooltipUp
+                  span &nbsp#{category.count}
+                  span &nbsp#{category.countGap}
+              td.statScore
+                div(data-placement="bottom" title=tooltipCategoryDetailLove).tooltipUp
+                  span &nbsp#{category.iLove}
+                  span &nbsp#{category.iLoveGap}
+              td.statScore
+                div(data-placement="bottom" title="#{__('tooltipCategoryDetailBeloved')}").tooltipUp
+                  span &nbsp#{category.beLoved}
+                  span &nbsp#{category.beLovedGap}
+
+    table.normalScore
+      caption.scoreCaption > #{__('profileMostPlayed')} (#{thisYear})
+      thead
+        tr
+          th
+            div(data-placement="bottom" title=tooltipMostPlayedSentences).tooltipUp #{__('profileSentence')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCount')}").tooltipUp #{__('profileCount')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipProfileMidnight')}").tooltipUp #{__('profileRank')}
+      tbody
+        each aSen, idx in mostPlayed
+          tr
+            td.statScript
+              a(href='/#{aSen.nickname}/day/#{aSen.strDate}?sn=#{aSen.sen_num}' target='_blank' title='#{aSen.engTxt}').statScriptLink #{aSen.engTxt}
+            td.statScore
+              div(data-placement="bottom" title="#{__('tooltipPlayedCount')}").tooltipUp
+                span &nbsp#{aSen.clicked}
+                span &nbsp#{aSen.clickedGap}
+            td.statRank
+              div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+                span &nbsp#{aSen.rank_played}
+                span &nbsp#{aSen.rank_playedGap}
+
+    table.normalScore
+      caption.scoreCaption > #{__('profileMostBeloved')} (#{thisYear})
+      thead
+        tr
+          th 
+            div(data-placement="bottom" title=tooltipMostBelovedSentences).tooltipUp #{__('profileSentence')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCount')}").tooltipUp #{__('profileCount')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipProfileMidnight')}").tooltipUp #{__('profileRank')}
+      tbody
+        each aSen, idx in mostBeloved
+          tr
+            td.statScript
+              a(href='/#{aSen.nickname}/day/#{aSen.strDate}?sn=#{aSen.sen_num}' target='_blank' title='#{aSen.engTxt}').statScriptLink #{aSen.engTxt}
+            td.statScore
+              div(data-placement="bottom" title="#{__('tooltipMostBelovedCount')}").tooltipUp
+                span &nbsp#{aSen.beloved_count}
+                span &nbsp#{aSen.beloved_countGap}
+            td.statRank
+              div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+                span &nbsp#{aSen.rank_beloved}
+                span &nbsp#{aSen.rank_belovedGap}
+
+
+    table.normalScore
+      caption.scoreCaption > #{__('profileUsedStems')} (#{thisYear})
+      thead
+        tr
+          th 
+            div(data-placement="bottom" title=tooltipMostWroteWords).tooltipUp #{__('profileWord')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipCount')}").tooltipUp #{__('profileCount')}
+          th
+            div(data-placement="bottom" title="#{__('tooltipProfileMidnight')}").tooltipUp #{__('profileRank')}
+      tbody
+        each aSen, idx in mostStems
+          tr
+            td.statScript
+              div.statScriptLink #{aSen.word}
+
+            td.statScore
+              div(data-placement="bottom" title="#{__('tooltipMostWroteWordsCount')}").tooltipUp
+                span &nbsp#{aSen.count}
+                span &nbsp#{aSen.countGap}
+            td.statRank
+              div(data-placement="bottom" title="#{__('tooltipDetailRank')}").tooltipUp
+                span &nbsp#{aSen.rank_stems}
+                span &nbsp#{aSen.rank_stemsGap}

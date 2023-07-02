@@ -1,0 +1,196 @@
+/* Github UI */
+h6{margin:0px; padding:0px;}
+
+.proWrap {width:712px;margin:0px auto;}
+.proGraphic {height:96px; margin:10px auto; padding: 2px 1px 4px 1px; }
+.proDayTextWrap {position:relative;float:left;height:96px; background-color:#fff;margin-right:5px; }
+h6.proDayText {text-align: center;font-size:10px;line-height:12px;}
+h6.proDayText.sun {color:#f893a2;}
+h6.proDayText.sat {color:#4955fc;}
+
+.proYearWrap {position:relative;float:left;margin-left:2px;}
+.proMonth {position:relative; float:left;margin-right:3px;}
+h6.proMonthText {height:12px;text-align: center; font-size:10px;background-color:#fff;color:#888;}
+
+
+/* 오늘부터 토요일까지 남은 날 연출 */
+.proWeekWrap {position:relative; float:left;}
+.proWeek {position:relative; float:left;width:12px;height:84px;background-color:#fff;} 
+/* 12(=10+2) *7 = 84 */
+.proWeekFirstMonth {position:relative; float:left;margin-right:2px;height:84px;background-color:#fff;}
+.proWeek0 {background-color:#ddd;height:72px;}
+.proWeek1 {background-color:#ddd;height:60px;}
+.proWeek2 {background-color:#ddd;height:48px;}
+.proWeek3 {background-color:#ddd;height:36px;}
+.proWeek4 {background-color:#ddd;height:24px;}
+.proWeek5 {background-color:#ddd;height:12px;}
+.proWeek6 {background-color:#ddd;height:84px;}
+
+
+/* 문장이 쓰인 수 만큼 셀 색칠하기. 폰트 사이즈를 0으로 해서 카운트가 보이지 않도록 설정 */
+.proDayNone {width:10px;height:10px;margin-bottom:2px; background-color:#eee;font-size:0px;}
+.proDay1 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#98ca3c;font-size:0px;}
+.proDay2 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#88ba3c;font-size:0px;}
+.proDay3 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#78aa3c;font-size:0px;}
+.proDay4 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#689a3c;font-size:0px;} 
+.proDay5 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#588a3c;font-size:0px;}
+.proDay6 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#487a3c;font-size:0px;}
+.proDay7 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#386a3c;font-size:0px;}
+.proDay8 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#285a3c;font-size:0px;}
+.proDay9 {display:block;width:10px;height:10px;margin-bottom:2px; background-color:#184a3c;font-size:0px;}
+.proDay10{display:block;width:10px;height:10px;margin-bottom:2px; background-color:#083a3c;font-size:0px;}
+
+
+/* 1월 1일 시작되는 요일 이전 셀 하얗게 칠하고 카운팅 안하기 */
+.thereIsNoDay_Mon {width:10px;height:10px;margin-bottom:2px; background-color:#fff;}
+.thereIsNoDay_Tue {width:10px;height:22px;margin-bottom:2px; background-color:#fff;}
+.thereIsNoDay_Wed {width:10px;height:34px;margin-bottom:2px; background-color:#fff;}
+.thereIsNoDay_Thu {width:10px;height:46px;margin-bottom:2px; background-color:#fff;}
+.thereIsNoDay_Fri {width:10px;height:58px;margin-bottom:2px; background-color:#fff;}
+.thereIsNoDay_Sat {width:10px;height:70px;margin-bottom:2px; background-color:#fff;}
+
+
+/* 핑크색 */
+/* .proDay1 {width:10px;height:10px;margin-bottom:2px; background-color:#f893a2;font-size:4px;}
+.proDay2 {width:10px;height:10px;margin-bottom:2px; background-color:#e883a2;font-size:4px;}
+.proDay3 {width:10px;height:10px;margin-bottom:2px; background-color:#d873a2;font-size:4px;}
+.proDay4 {width:10px;height:10px;margin-bottom:2px; background-color:#c863a2;font-size:4px;} 
+.proDay5 {width:10px;height:10px;margin-bottom:2px; background-color:#b853a2;font-size:4px;}
+.proDay6 {width:10px;height:10px;margin-bottom:2px; background-color:#a843a2;font-size:4px;}
+.proDay7 {width:10px;height:10px;margin-bottom:2px; background-color:#9833a2;font-size:4px;}
+.proDay8 {width:10px;height:10px;margin-bottom:2px; background-color:#8823a2;font-size:4px;}
+.proDay9 {width:10px;height:10px;margin-bottom:2px; background-color:#7813a2;font-size:4px;}
+.proDay10 {width:10px;height:10px;margin-bottom:2px;background-color:#6803a2;font-size:4px;} */
+
+
+@media screen and (min-width:0px) and (max-width: 1024px){
+/* github UI */
+.mainWrap{width:600px;margin:10px auto;}
+
+.proGraphic {margin-left:10px; }
+.proDayTextWrap {margin-right: 1px;}
+/* .proDayTextWrap{display:none;} */
+h6.proDayText {text-align: center;font-size:6px; line-height: 11px;}
+h6.proDayText.sun {color:#f893a2;margin-top:0px; line-height: 11px;}
+h6.proDayText.sat {color:#4955fc;}
+
+.proYearWrap {margin-left:5px;}
+.proMonth {margin-right:2px;}
+/* h6.proMonthText {display:none;} */
+.proWeek {width:10px;height:77px;} /* 11(=9+2) *7 = 77 */
+.proWeekFirstMonth {height:77px;}
+.proWeek0 {height:66px;}
+.proWeek1 {height:55px;}
+.proWeek2 {height:44px;}
+.proWeek3 {height:33px;}
+.proWeek4 {height:22px;}
+.proWeek5 {height:11px;}
+.proWeek6 {height:77px;}
+
+.proDayNone {width:9px;height:9px;}
+.proDay1    {width:9px;height:9px; }
+.proDay2    {width:9px;height:9px; }
+.proDay3    {width:9px;height:9px; }
+.proDay4    {width:9px;height:9px; } 
+.proDay5    {width:9px;height:9px; }
+.proDay6    {width:9px;height:9px; }
+.proDay7    {width:9px;height:9px; }
+.proDay8    {width:9px;height:9px; }
+.proDay9    {width:9px;height:9px; }
+.proDay10   {width:9px;height:9px; }
+
+.thereIsNoDay_Mon {width:9px;height:9px; }
+.thereIsNoDay_Tue {width:9px;height:20px;}
+.thereIsNoDay_Wed {width:9px;height:31px;}
+.thereIsNoDay_Thu {width:9px;height:42px;}
+.thereIsNoDay_Fri {width:9px;height:53px;}
+.thereIsNoDay_Sat {width:9px;height:64px;}
+}
+
+
+
+
+@media screen and (min-width:0px) and (max-width: 679px){
+.mainWrap{width:100%;}
+.proWrap{width:550px;}
+.proGraphic{margin-left:5px;}
+
+.proDayTextWrap{margin-right:1px;}
+h6.proDayText {text-align: center;font-size:6px; line-height: 9px;}
+h6.proDayText.sun {color:#f893a2;margin-top:1px; line-height: 9px;}
+h6.proDayText.sat {color:#4955fc;}
+
+.proYearWrap {margin-left:5px;}
+
+.proMonth {margin-right:2px;}
+.proWeek {width:9px;height:63px;} /* 9*7 = 63 */
+.proWeekFirstMonth {height:63px;;margin-right:1px;}
+.proWeek0 {height:54px;}
+.proWeek1 {height:45px;}
+.proWeek2 {height:36px;}
+.proWeek3 {height:27px;}
+.proWeek4 {height:18px;}
+.proWeek5 {height:9px;}
+.proWeek6 {height:63px;}
+
+.proDayNone {width:8px;height:8px;margin-bottom:1px;}
+.proDay1    {width:8px;height:8px;margin-bottom:1px;}
+.proDay2    {width:8px;height:8px;margin-bottom:1px;}
+.proDay3    {width:8px;height:8px;margin-bottom:1px;}
+.proDay4    {width:8px;height:8px;margin-bottom:1px;} 
+.proDay5    {width:8px;height:8px;margin-bottom:1px;}
+.proDay6    {width:8px;height:8px;margin-bottom:1px;}
+.proDay7    {width:8px;height:8px;margin-bottom:1px;}
+.proDay8    {width:8px;height:8px;margin-bottom:1px;}
+.proDay9    {width:8px;height:8px;margin-bottom:1px;}
+.proDay10   {width:8px;height:8px;margin-bottom:1px;}
+
+.thereIsNoDay_Mon {width:8px;height: 8px;margin-bottom:1px;}
+.thereIsNoDay_Tue {width:8px;height:17px;margin-bottom:1px;}
+.thereIsNoDay_Wed {width:8px;height:26px;margin-bottom:1px;}
+.thereIsNoDay_Thu {width:8px;height:35px;margin-bottom:1px;}
+.thereIsNoDay_Fri {width:8px;height:44px;margin-bottom:1px;}
+.thereIsNoDay_Sat {width:8px;height:53px;margin-bottom:1px;}
+}
+
+
+
+@media screen and (min-width:0px) and (max-width: 530px){
+  /* github UI */
+  .proWrap{width:350px;}
+  .proGraphic {width:100%;height: 60px;margin:0px 2px; }
+  /* .proDayTextWrap {height:54px; margin-right: 1px;} */
+  .proDayTextWrap{display:none;}
+  .proYearWrap {width:100%;margin:0 auto;}
+  .proMonth {margin-right:2px;}
+  /* h6.proMonthText {height:13px; font-size:8px;} */
+  h6.proMonthText {display:none;}
+  .proWeek    {width:6px;height:49px;} /* 7*7 = 49 */
+  .proWeekFirstMonth {height:49px;margin-right:1px;}
+  .proWeek0 {height:42px;}
+  .proWeek1 {height:35px;}
+  .proWeek2 {height:28px;}
+  .proWeek3 {height:21px;}
+  .proWeek4 {height:14px;}
+  .proWeek5 {height:7px;}
+  .proWeek6 {height:49px;}
+
+  .proDayNone {width:5px;height:5px;margin-bottom:2px;}
+  .proDay1    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay2    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay3    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay4    {width:5px;height:5px;margin-bottom:2px;} 
+  .proDay5    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay6    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay7    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay8    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay9    {width:5px;height:5px;margin-bottom:2px;}
+  .proDay10   {width:5px;height:5px;margin-bottom:2px;}
+  
+  .thereIsNoDay_Mon {width:5px;height: 5px;margin-bottom:2px;}
+  .thereIsNoDay_Tue {width:5px;height:1px;margin-bottom:2px;}
+  .thereIsNoDay_Wed {width:5px;height:17px;margin-bottom:2px;}
+  .thereIsNoDay_Thu {width:5px;height:23px;margin-bottom:2px;}
+  .thereIsNoDay_Fri {width:5px;height:29px;margin-bottom:2px;}
+  .thereIsNoDay_Sat {width:5px;height:35px;margin-bottom:2px;}  
+}

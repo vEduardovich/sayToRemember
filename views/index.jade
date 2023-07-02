@@ -1,0 +1,85 @@
+extends layout
+
+block subhead
+  link(rel='canonical' href='https://str.himion.com')
+  title Say to Remember
+  meta(name='description' content='You can listen to English sentences just by click what you inputed it.')
+  meta(property='og:locale'       content='ko_KR')
+  meta(property='og:type'         content='website')
+  meta(property='og:title'        content='Say To Remember - Remember your sentence')
+  meta(property='og:description'  content='English, listen, remember, dictation, write, learn, self-study, self-education')
+  meta(property='og:url'          content='https://str.himion.com')
+  meta(property='og:site_name'    content='세이 투 리멤버')
+  meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='og:image:width'  content='192')
+  meta(property='og:image:height' content='192')
+
+  meta(property='twitter:locale'  content='ko_KR')
+  meta(property='twitter:type'    content='website')
+  meta(property='twitter:card'    content='summary')
+  meta(property='twitter:url'     content='https://str.himion.com')
+  meta(property='twitter:site_name' content='세이 투 리멤버')
+  meta(property='twitter:title'   content='Say To Remember - Remember your sentence')
+  meta(property='twitter:description'  content='English, listen, remember, dictation, write, learn, self-study, self-education')
+  meta(property='twitter:creator' content='SayToRemember')
+  meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='twitter:image:width'  content='192')
+  meta(property='twitter:image:height' content='192')
+
+
+block subScript
+  script(type="application/ld+json").
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "url": "https://str.himion.com",
+      "name": "세이투리멤버"
+    }
+
+
+  script.
+    console.log("%c #{__('eggMsgConsole1')}.", 'color: #DD1818;font-size:20px');
+
+    window.fbAsyncInit = function() {
+      FB.init({
+      appId    : '202292743598280',
+      xfbml    : true,
+      version  : 'v2.8'
+      });
+      FB.AppEvents.logPageView();
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    location.href='/everyone';
+  link(rel='stylesheet' type='text/css' href='/css/index.css')
+
+block content
+  .mainWrap
+    h3.index 
+    h4.indexLeft 17. 로그인 모듈 전면 수정 완료(18.09.05)
+    h4.indexLeft 16. SEO에 맞춰 구조변경 및 설정 완료(18.08.27)
+    h4.indexLeft 15. 글로벌 언어팩 적용(18.08.16)
+    h4.indexLeft 14. 한시간마다 DB 전체 dump 친후 s3에 저장하기
+    h4.indexLeft 13. 통계 DB및 profile페이지 알파개발 완료.(~18.07.30). 모두 완료.(18.08.13)
+    h4.indexLeft 12. 개인 통계 페이지 개발 중(~18.06.28)
+    h4.indexLeft 11. 모두를 위한 페이지 개발완료 => 18.06.18
+    h4.indexLeft 10. tooltip 적용. 로고 SVG로 적용 => 18.06.04
+    h4.indexLeft 9. heart System 개발 완료=> 18.05.30
+    h4.indexLeft 5. 플레이가 많이 된 문장일수록 문장의 색이 진해집니다. 18.03.30
+
+    br
+    a(href='/everyone')
+      h4.indexLeft.link 모든 서비스 경험이 가능한 모두의 페이지 클릭!
+
+    br
+    p.indexCenter
+      a(href="//www.iubenda.com/privacy-policy/17399487" class="iubenda-white iubenda-embed" title="Privacy Policy") Privacy Policy
+      script.
+        (function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src = "//cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);

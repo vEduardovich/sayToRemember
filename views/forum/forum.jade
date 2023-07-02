@@ -1,0 +1,319 @@
+extends ../layout
+
+block subhead
+  if f
+    link(rel='canonical' href='https://str.himion.com/f/#{forumName}?num=#{f.article_num}')
+    title #{f.title}
+    - // ★ textarea내에 줄바꿈과 &nbsp를 없앤후, 모든 태그를 없애기
+    - var desc = f.article.replace(/\n|\r|&nbsp;/ig, "").replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+    - if (desc.length > 100 ){
+        - desc = desc.substr(0,100);
+    - }
+    meta(name='description' content='#{desc}')
+  else
+    title #{forumName} 게시판
+    meta(name='description' content='#{forumName} 글 목록')
+
+  if f
+    meta(property='og:title'        content='#{f.title}')
+    meta(property='og:url'          content='https://str.himion.com/f/#{forumName}?num=#{f.article_num}')
+    meta(property='og:description'  content='#{desc}')
+  else
+    meta(property='og:title'        content='#{forumName} 게시판')
+    meta(property='og:url'          content='https://str.himion.com/f/#{forumName}')
+    meta(property='og:description'  content='#{forumName} 글 목록')
+  meta(property='og:locale'       content='ko_KR')
+  meta(property='og:type'         content='website')
+  meta(property='og:site_name'    content='세이 투 리멤버')
+  meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='og:image:width'  content='192')
+  meta(property='og:image:height' content='192')
+
+  if f
+    meta(property='twitter:title'   content='#{f.title}')
+    meta(property='twitter:description'  content='#{desc}')
+    meta(property='twitter:url'     content='https://str.himion.com/f/#{forumName}?num=#{f.article_num}')
+  else
+    meta(property='twitter:title'   content='#{forumName} 게시판')
+    meta(property='twitter:description'  content='#{forumName} 글 목록')
+    meta(property='twitter:url'     content='https://str.himion.com/f/#{forumName}')
+  meta(property='twitter:locale'  content='ko_KR')
+  meta(property='twitter:type'    content='website')
+  meta(property='twitter:card'    content='summary')
+  meta(property='twitter:site_name' content='세이 투 리멤버')
+  meta(property='twitter:creator' content='SayToRemember')
+  meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='twitter:image:width'  content='192')
+  meta(property='twitter:image:height' content='192')
+
+block subScript
+  link(rel='stylesheet' type='text/css' href='/css/index.css')
+  link(rel='stylesheet' type='text/css' href='/css/forum.css')
+  script(src='/js/forum/forum_client.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js')
+
+block popup
+  - // 글삭제 & 댓글삭제 버튼을 눌렀을 때 뜨는 팝업 창
+  nav.mfp-hide.deletePopup#deletePopup
+    .deletePopupTitle #{__('sayPopupDelete')}
+    a(href='javascript:;' onclick='yesMsgPopup()').yesBtn #{__('sayBtnDelete')}
+    a(href='javascript:;' onclick='noMsgPopup()').noBtn #{__('sayBtnCancel')}
+
+  - // 맨위로 이동
+  a(href='javascript:window.scrollTo(0, 0);').fa.fa-angle-up.navMoveTop
+
+block content
+  append popup
+
+  input(hidden data-nickname='#{nickname}' data-level='#{userLevel}' data-user='#{user}' data-forum-name='#{forumName}' data-forum-num='#{forumNum}' data-searching-tag-idx='#{searchingTagIdx}' data-page='#{page}' data-step='#{step}' data-article-count ='#{articleCount}' )#forumInfo
+  .frame
+    .contents
+
+      .articleWriteWrap
+        if f
+          - var articleId = f.id;// replyNavAjax.jade와 변수명을 일치 시키기 위해 치환한다.
+          - var articleNum = f.article_num;
+          - var writerNickname = f.nickname;
+          .forumTitleWrap(data-article-id='#{articleId}' data-article-num='#{articleNum}')
+            a(href='javascript:;' onclick='window.history.back();').fa.fa-arrow-left.backward
+            h3.forumTitle #{forumNameTxt}
+            a(href='/f/#{f.forum_name}?page=#{page}&step=#{step}').btnArticleList#btnArticleList 목록
+
+
+          - // 글영역
+          .articleContentsWrapper
+            .articleTitleWrap
+              span.articleTitle#articleTitle #{f.title}
+                a(href='#replyWrap')
+                  i.countWrap &nbsp(
+                  i.countSentence #{countDoc}
+                  i.countWrap )
+              .nicknameArea
+                span.articleNickname #{writerNickname}
+                i.levelIcon Lv.#{f.level}
+              .articleInfoWrap
+                span.articleInfoFirst &nbsp#{createdAt}
+                span.articleInfo &nbsp| 순뽕
+                span.articleInfo#pureGood #{f.score.good.length + f.score.bigGood.length * 10 - (f.score.bad.length + f.score.bigBad.length * 10)}
+                span.articleInfo &nbsp| 조회 #{f.count}
+                if f.isDeleted == false
+                  span.articleInfo &nbsp|
+                  a(href='javascript:;' onclick='').police 신고
+
+            .articleEditWrap(data-article-id='#{articleId}')#articleEditWrap
+              if f.isDeleted == false
+                button(data-clipboard-text='https://str.himion.com/f/#{f.forum_name}?num=#{articleId}&page=#{page}&step="#{step}"' data-toggle="popover" data-placement="bottom" data-content="Copied!").articleAddress 주소복사
+              if user == 'owner' && f.isDeleted == false
+                - console.log('isDeleted: '+ f.isDeleted);
+                //- button(onclick='articleDelete(this)').articleEdit 삭제
+                button(onclick='openPopup()').articleEdit 삭제
+                button(onclick='articleEdit(this)').articleEdit 수정
+
+            .articleTxtArea#articleTxtArea !{f.article}
+
+          .btnArticleGoodBadWrap
+            //- if statusGood
+            button(data-is-good='#{status.good}' data-is-big-good='#{status.bigGood}').btnArticleGoodBad#btnArticleGood
+              .btnArticleTxt 뽕
+              .btnArticleCount #{f.score.good.length + f.score.bigGood.length * 10 }
+            button(data-is-good='#{status.bad}' data-is-big-good='#{status.bigBad}').btnArticleGoodBad#btnArticleBad
+              .btnArticleTxt 똥
+              .btnArticleCount #{f.score.bad.length + f.score.bigBad.length * 10 }                          
+
+            .replyCountWrap
+              .replyCount 댓글&nbsp
+                span #{countDoc}
+
+            .replyWriteArea#replyWriteArea
+              if (isSignedIn)
+                textarea(placeholder='댓글을 입력하세요.' onkeyup="checkTextArea(this)").writeReply#writeReply
+              else
+                textarea(placeholder='로그인 먼저하기' onclick="location.href='/sign/in' ").writeReply#writeReply
+
+              .replyWriteInfo
+                .replyLetterCheck
+                  .checkLenInfo#checkLenInfo 0
+                  .totalLength / 300
+                button(onclick='replySubmit(this)').replySubmitBtn#replySubmitBtn 작성완료
+
+
+
+            - // 댓글 영역
+            .replyArticleWrap
+              each reply, idx in mainReply
+                .mainReply
+                  - // 답글과 구조를 맞추기 위해 더미로 만든다. ㄴ 아이콘이 들어가며 구조가 바뀌었다
+                  .mainReplyArea
+                    - // 답글이 없는 일반 댓글 표시
+                    .replyArticleArea(data-id='#{reply.id}' data-reply-is-deleted ='#{reply.isDeleted}')
+                      .replyNicknameArea
+                        span.replyNickname #{reply.nickname}
+                        i.levelIcon Lv.#{reply.level}
+
+                        .btnReplyGoodBad
+                          button(onclick='').btnReplyGood#btnReplyGood
+                            .btnReplyTxt 뽕
+                            .btnReplyCount #{reply.score.good.length + reply.score.bigGood.length * 10 }
+                          button(onclick='').btnReplyBad#btnReplyBad
+                            .btnReplyTxt 똥
+                            .btnReplyCount #{reply.score.bad.length + reply.score.bigBad.length * 10 }
+
+                      if writerNickname == reply.nickname && reply.isDeleted == false
+                        .replyArticleTxt#replyArticleTxt.writer !{reply.replyTxt}
+                      else
+                        .replyArticleTxt#replyArticleTxt !{reply.replyTxt}
+
+                      .replyInfo
+                        span.articleInfo #{reply.updatedAtMoment}
+                        if nickname == reply.nickname && reply.isDeleted == false
+                          span.articleInfo &nbsp|
+                          button.police 신고
+                        if reply.isDeleted == false
+                          button(onclick='answerToggle(this)').answerEdit 답글
+                        if nickname == reply.nickname && reply.isDeleted == false
+                          button(onclick='openPopup($(this).parent().parent());$("#forumInfo").data("replyId", "#{reply.id}")').replyEdit 삭제
+                          button(onclick='replyEdit(this)').replyEdit 수정
+
+                    - // 댓글 글쓰기 화면
+                    .answerWriteArea#replyWriteArea
+                      if (isSignedIn)
+                        textarea(placeholder='답글을 입력하세요.' onkeyup="checkTextArea(this)").writeAnswer#writeReply
+                      else
+                        textarea(placeholder='로그인 먼저하기' onclick="location.href='/sign/in' ").writeAnswer#writeReply
+
+                      .answerWriteInfo
+                        .replyLetterCheck
+                          .checkLenInfo#checkLenInfo 0
+                          .totalLength / 300
+                        button(onclick='replySubmit(this,"answer1")' data-reply-num='#{reply.reply_num}').replySubmitBtn#replySubmitBtn 작성완료
+
+
+                .answerReply
+
+                  - // 이제 답글 표시하자
+                  each ar, i in reply.answerArr
+                    .answerArea
+                      .answerIcon ㄴ
+                      .answerArticleArea(data-id='#{ar.id}' data-reply-is-deleted ='#{ar.isDeleted}')
+                        .replyNicknameArea
+                          span.replyNickname #{ar.nickname}
+                          i.levelIcon Lv.#{ar.level}
+
+                          .btnReplyGoodBad
+                            button(onclick='').btnReplyGood#btnReplyGood
+                              .btnReplyTxt 뽕
+                              .btnReplyCount #{reply.score.good.length + reply.score.bigGood.length * 10 }
+                            button(onclick='').btnReplyBad#btnReplyBad
+                              .btnReplyTxt 똥
+                              .btnReplyCount #{reply.score.bad.length + reply.score.bigBad.length * 10 }
+
+                        if writerNickname == ar.nickname && ar.isDeleted == false
+                          .replyArticleTxt#replyArticleTxt.writer !{ar.replyTxt}
+                        else
+                          .replyArticleTxt#replyArticleTxt !{ar.replyTxt}
+
+                        .replyInfo
+                          span.articleInfo #{ar.updatedAtMoment}
+                          if nickname == ar.nickname && ar.isDeleted == false
+                            span.articleInfo &nbsp|
+                            button.police 신고
+                          if ar.isDeleted == false
+                            button(onclick='answerToggle(this)').answerEdit 답글
+                          if nickname == ar.nickname && ar.isDeleted == false
+                            button(onclick='openPopup($(this).parent().parent());$("#forumInfo").data("replyId", "#{ar.id}")').replyEdit 삭제
+                            button(onclick='replyEdit(this, "answer2")').replyEdit 수정
+
+                      - // 답글 글쓰기 화면
+                      .answerWriteArea#replyWriteArea
+                        if (isSignedIn)
+                          .toWriter @#{ar.nickname}
+                          textarea(placeholder='답글을 입력하세요.' onkeyup="checkTextArea(this)").writeAnswer#writeReply
+                        else
+                          textarea(placeholder='로그인 먼저하기' onclick="location.href='/sign/in' ").writeAnswer#writeReply
+                        .answerWriteInfo
+                          .replyLetterCheck
+                            .checkLenInfo#checkLenInfo 0
+                            .totalLength / 300
+                          button(onclick='replySubmit(this,"answer2")' data-reply-num='#{reply.reply_num}').replySubmitBtn#replySubmitBtn 작성완료
+
+              - // 댓글 페이징. 다만 댓글수가 reStep보다 작으면 네비창을 보여주지 않는다.
+              if reCount > reStep
+                nav.replyNav
+                  ul
+                    li
+                      if rePage <= 1
+                        a.fa.fa-angle-left.previousRePage.invisible
+                      else
+                        a(href='javascript:;' onclick='naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",#{rePage-1},#{reStep},#{reCount})').fa.fa-angle-left.previousRePage
+
+
+                    - //button 기능만 아직 개발 안했다.
+                    li.navPagingWrap
+                      input(type='number' name='title' value='#{rePage}' ).inputRePage
+                      button(onclick='var navRePage=$(this).prev().val();naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",navRePage,#{reStep},#{reCount})').fa.fa-search.moveRePage
+
+                    li
+                      if (rePage * reStep) < reCount
+                        a(href='javascript:;' onclick='naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",#{rePage+1},#{reStep},#{reCount})').fa.fa-angle-right.forwardRePage
+                      else
+                        a.fa.fa-angle-right.forwardRePage.invisible
+
+                    li
+                      if (rePage * reStep) < reCount
+                        - var lastRePage = Math.ceil( reCount / reStep );//마지막 댓글 페이지
+                        a(href='javascript:;' onclick='naviRePageFun("#{writerNickname}","#{nickname}","#{articleId}",#{lastRePage},#{reStep},#{reCount})').lastRePage 끝
+                      else
+                        a.lastRePage.invisible
+
+            .forumTitleListWrap
+              h3.forumTitle #{forumNameTxt}
+              if (isSignedIn)
+                a(href='/f/#{forumName}/write').writeBtnList#writeBtn 글쓰기
+
+        - // 만약 글내용도 함께 보여주는 거라면
+        if !f
+          .forumTitleList
+            h3.forumTitle #{forumNameTxt}
+            if (isSignedIn)
+              a(href='/f/#{forumName}/write').btnArticleList#writeBtn 글쓰기
+
+        .articleContentsWrapper
+          if !articles || articles == ''
+            .articleContent 글이 없습니다
+          else
+            each article, idx in articles
+              .articleContent(data-article-is-deleted ='#{article.isDeleted}')
+                - // 현재글 표시
+                if articleNum == article.article_num
+                  a(href='/f/#{article.forum_name}?num=#{article.article_num}&page=#{page}&step=#{step}').articleContentTitle.currentArticle #{article.title}
+                else
+                  a(href='/f/#{article.forum_name}?num=#{article.article_num}&page=#{page}&step=#{step}').articleContentTitle #{article.title}
+
+                .articleInfoWrap
+                  span.articleNicknameSmall #{article.nickname}
+                  i.levelIconSmall Lv.#{article.level}
+
+                  span.articleInfoSmall &nbsp#{article.createdAtMoment}
+                  span.articleInfoSmall &nbsp| 순뽕 #{article.count - article.count}
+                  span.articleInfoSmall &nbsp| 조회 #{article.count} |
+                  span.articleInfoSmall &nbsp댓글&nbsp
+                  i.articleInfoReply #{article.reply_count}
+
+
+        nav.articleNav
+          ul
+            li
+              if page <= 1
+                a.fa.fa-angle-left.previousPage.invisible
+              else
+                a(href='/f/#{forumName}?page=#{page-1}&step=#{step}').fa.fa-angle-left.previousPage
+
+            li.navPagingWrap
+              input(type='number' name='title' value='#{page}' ).inputPage
+              button(onclick='var navPage=$(this).prev().val();location.href="/f/#{forumName}?page="+navPage+"&step=#{step}"').fa.fa-search.movePage
+            li
+              if (page * step) < articleCount
+                a(href='/f/#{forumName}?page=#{page+1}&step=#{step}').fa.fa-angle-right.forwardPage
+              else
+                a.fa.fa-angle-right.forwardPage.invisible
+

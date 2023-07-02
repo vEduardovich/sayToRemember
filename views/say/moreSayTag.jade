@@ -1,0 +1,88 @@
+.day
+  .upperDay
+    a(href='javascript:;' onclick="senSort(this)" data-sort='#{senSort}')
+      if senSort
+        span(data-placement="right" title="#{__('tooltipSorting')}").glyphicon.glyphicon-sort-by-attributes.senSort.tooltipUp
+      else
+        span(data-placement="right" title="#{__('tooltipSortingAlt')}").glyphicon.glyphicon-sort-by-attributes-alt.senSort.tooltipUp        
+    span.createdAt #{userTags[searchingTagIdx]} Category
+    
+    - var senCount;
+    if pageModel.totalBydateCount >= pageModel.page * pageModel.byDateStep
+      - senCount = pageModel.byDateStep;
+    else
+      - senCount = pageModel.totalBydateCount - (pageModel.page-1) * pageModel.byDateStep;
+    span.countSentence.badge #{senCount}
+
+    a(href='javascript:;' onclick="speak(this,'playTotal')" data-mp3s='#{mp3s}' data-ids='#{senIds}').speakIconBig.glyphicon.glyphicon-volume-down.forMp3s
+    a(href='javascript:;' onclick="speak(this,'repeatTotal')" data-mp3s='#{mp3s}' data-ids='#{senIds}').repeatIconBig.glyphicon.glyphicon-refresh.forMp3s
+
+  .inferiorDay
+    each item, idx in aSentence
+      .aSen
+        .frontIcons
+          if user == 'owner'
+            a(href='javascript:;' onclick='openOpt(this)' data-placement="right" data-item-id='#{item._id}' data-item-by-date='#{item.byDate_id}' data-file='#{item.mp3}' title="#{__('tooltipSenModifyDelete')}").glyphicon.glyphicon-option-vertical.optionIcon.tooltipUp
+
+            if item.heart[0]
+              if !item.heart[1]
+                - // 글의 주인만 heart on했을 때 who = 0
+                a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=0 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}" ).heartIcon.glyphicon.glyphicon-heart.tooltipUp
+              else
+                - // 글의 주인과 다른 사람도 1명 이상 heart on했을 때 who = 1
+                a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=1 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+            else
+              - // 글의 주인은 heart off하고 다른 사람만 1명 이상 heart on했을 때, who=2
+              if item.heart[1]
+                a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length -1}' data-who=2 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+                - // 아무도 heart on 하지 않았을 때, who = 3
+              else
+                - // 인덱스 0에 null이 있을 경우 실제 데이터가 없어도 length가 1로 잡히기 때문에
+                - if (item.heart[0] == null) item.heart.length = 0;
+                a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=3 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+
+
+            - // 다른 사람의 페이지에 방문했을 때
+          else if user == 'other'
+            - var checking = 0;
+
+            each heart, idx in otherHearts
+              - // 다른 사람의 페이지에 내가 heart on한 문장이 있고
+              if heart.sen_id.toString() == item._id.toString()
+                if item.heart[0]
+                  - // 해당 문장을 소유자도 heart했다면
+                  a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=4 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                else
+                  if item.heart[2]
+                    - // 해당 문장을 소유자는 heart 안하고 방문자는 heart하고 다른 누군가도 heart했을 때(최소 heart 2개 이상)
+                    a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length-1}' data-who=5 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                  else
+                    - // 해당 문장을 소유자는 heart 안하고 방문자만 heart하고 아무도 heart X을 경우
+                    a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length-1}' data-who=6 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart.tooltipUp
+                - checking = 1;
+                - break;
+
+
+            if !checking
+              - // 페이지를 방문한 사람이 heart하지 X
+              if item.heart[0]
+                - // 해당 문장을 소유자가 heart했다면
+                a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=7 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+              else
+                if item.heart[1]
+                  - // 해당 문장을 소유자, 방문자 모두 heart X, 하지만 다른 누군가가 heart했을
+                  a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length-1}' data-who=8 data-placement="right" title="#{item.heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+                else
+                  - // 아무도 heart X
+                  - if (item.heart[0] == null) item.heart.length = 0;
+                  a(href='javascript:;' onclick='hearting(this)' data-item-id='#{item._id}' data-count='#{item.heart.length}' data-who=9 data-placement="right" title="#{item.heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+
+
+        .senWrap
+          div(onclick='senTxtVisible(this)' data-clicked='#{item.clicked}' data-other-clicked='#{item.other_clicked}' data-sen-num='#{item.sen_num}').senTxt.senTxtVisible #{item.engTxt}
+          div(onclick='senKorTxtVisible(this)').senKorTxt.senTxtVisible #{item.korTxt}
+              i(data-tag-idx='#{item.tagIdx}').tagInfo #{userTags[item.tagIdx]}
+            i.tagInfo #{item.updatedAt_local}
+        .backIcons
+          a(href='javascript:;' onclick ="speak(this,'repeatOne')" data-item-id='#{item._id}' data-item-by-date='#{item.byDate_id}' data-file='#{item.mp3}').repeatIconSmall.glyphicon.glyphicon-refresh
+          a(href='javascript:;' onclick ="speak(this,'playOne')" data-item-id='#{item._id}' data-item-by-date='#{item.byDate_id}' data-file='#{item.mp3}').speakIconSmall.glyphicon.glyphicon-volume-down

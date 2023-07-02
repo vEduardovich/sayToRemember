@@ -1,0 +1,55 @@
+extends ../layout
+
+block subhead
+  link(rel='canonical' href='https://str.himion.com/sign/in/pwd')
+  title Say to Remember #{__('signIn')} (#{__('msgPassword')})
+  meta(name='description' content='You are signing to SayToRemember')
+  meta(property='og:locale'       content='ko_KR')
+  meta(property='og:type'         content='website')
+  meta(property='og:title'        content="Say to Remember #{__('signIn')} (#{__('msgPassword')})")
+  meta(property='og:description'  content='You are signing to SayToRemember')
+  meta(property='og:url'          content='https://str.himion.com/sign/in/pwd')
+  meta(property='og:site_name'    content='세이 투 리멤버')
+  meta(property='og:image'        content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='og:image:width'  content='192')
+  meta(property='og:image:height' content='192')
+
+  meta(property='twitter:locale'  content='ko_KR')
+  meta(property='twitter:type'    content='website')
+  meta(property='twitter:card'    content='summary')
+  meta(property='twitter:url'     content='https://str.himion.com/sign/in/pwd')
+  meta(property='twitter:site_name' content='세이 투 리멤버')
+  meta(property='twitter:title'   content="Say to Remember #{__('signIn')} (#{__('msgPassword')})")
+  meta(property='twitter:creator' content='SayToRemember')
+  meta(property='twitter:image'   content='https://str.himion.com/img/icon/192x192.jpg')
+  meta(property='twitter:image:width'  content='192')
+  meta(property='twitter:image:height' content='192')
+  meta(property='twitter:description'  content='You are signing to SayToRemember')
+
+block subScript
+  link(rel='stylesheet' type='text/css' href='/css/sign.css')  
+  script(src='/js/sign_client.js')
+  script(src='/js/say/say_client_design.js')
+
+block content
+  .contents
+    .signinWrap
+      .motoWrap
+        img(src='/img/ci.svg' title="#{__('tooltipCI')}" alt='CI' onclick="ciClick(this)" ).ciIcon
+
+        h3 #{__('welcome')}
+        h3 #{displayName}!
+      .signinFormWrap
+        .form-group.signinForm
+          input(type='hidden' name='inputEmail' value=email)
+          input(type='password' name='inputPwd' placeholder="#{__('msgPassword')}" ).form-control.inputPwd#inputPwd
+          if isAlwaysSignIn != 'true'
+            span.msgScript #{__('signOutMsg')}
+
+          button#signinSubmit.signinSubmit #{__('signIn')}
+      .signinOptWrap
+        a(href='#').createAccountLink #{__('forgotPwd')}
+        
+    script.
+      // input창에 focus 두기
+      $('#inputPwd').focus(); // id 입력창 포커스      

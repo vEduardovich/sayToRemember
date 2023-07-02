@@ -1,0 +1,34 @@
+- // 문장 하나만 추가
+.aSen
+  .frontIcons
+    a(href='javascript:;' onclick='openOpt(this)' data-item-id='#{_id}' data-placement="right" data-item-by-date='#{byDate_id}' data-file='#{mp3}' title='수정 및 삭제').glyphicon.glyphicon-option-vertical.optionIcon.tooltipUp
+
+    if heart[0]
+      - // dayAjax는 항상 주인만 실행이 가능하다!
+      if !heart[1]
+        - // 글의 주인만 heart on했을 때. who = 0
+        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length}' data-who=0 data-placement="right" title="#{heart.length+__('tooltipMsgLove')}" ).heartIcon.glyphicon.glyphicon-heart.tooltipUp
+        - // 글의 주인과 다른 사람도 1명 이상 heart on했을 때 who = 1
+      else
+        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length}' data-who=1 data-placement="right" title="#{heart.length+__('tooltipMsgLove')}" ).heartIcon.glyphicon.glyphicon-heart.tooltipUp
+    else
+      - // 글의 주인은 heart off하고 다른 사람만 1명 이상 heart on했을 때
+      if heart[1]
+        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length -1}' data-who=2 data-placement="right" title="#{heart.length-1 +__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+        - // 아무도 heart on 하지 않았을 때
+      else
+        - if (heart[0] == null) heart.length = 0;
+        a(href='javascript:;' onclick='hearting(this)' data-item-id='#{_id}' data-count='#{heart.length }' data-who=3 data-placement="right" title="#{heart.length+__('tooltipMsgLove')}").heartIcon.glyphicon.glyphicon-heart-empty.tooltipUp
+
+
+  .senWrap
+    div(onclick='senTxtVisible(this);' data-clicked='#{clicked}' data-other-clicked='#{other_clicked}' data-sen-num='#{sen_num}').senTxt.senTxtVisible #{engTxt}
+    div(onclick='senKorTxtVisible(this);').senKorTxt.senKorTxtVisible #{korTxt}
+      if tagIdx
+        i(data-tag-idx='#{tagIdx}').tagInfo #{tagName}
+  .backIcons
+    
+    a(href='javascript:;' onclick ="speak(this,'repeatOne')" data-item-id='#{_id}' data-item-by-date='#{byDate_id}' data-file='#{mp3}').repeatIconSmall.glyphicon.glyphicon-refresh
+    a(href='javascript:;' onclick ="speak(this,'playOne')" data-item-id='#{_id}' data-item-by-date='#{byDate_id}' data-file='#{mp3}').speakIconSmall.glyphicon.glyphicon-volume-down
+    
+    input(type='hidden' data-is-include-date=isIncludeDate data-count=count data-mp3s=mp3s)#hiddenAjaxInfo
