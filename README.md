@@ -2,8 +2,7 @@
 
 <div align="center">
   <a href='https://str.himion.com/'>https://str.himion.com</a>
-  <div> <img src='./public/img/ci_gray.svg' width='100' style='margin-top:10px;'></img> </div>
-  <br/>
+  <div> <img src='./public/img/ci_gray.svg' width='64' style='margin:10px;'></img> </div>
   <em> 영어 듣기 특화 웹서비스</em>
 </div>
 
@@ -17,7 +16,8 @@
 
 ## 서비스 연혁
 <div>
-2018.04.11 <span style='margin-left:10px;'>개발 제작 </span></br>
+2017.11.xx <span style='margin-left:10px;'>MVP 제작 </span></br>
+2018.04.11 <span style='margin-left:10px;'>본개발 제작 </span></br>
 2018.09.22 <span style='margin-left:10px;'>서비스 시작</span></br>
 </div>
 
