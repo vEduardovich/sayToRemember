@@ -36,7 +36,7 @@
 1. 음성 파일 저장 | <a href='https://aws.amazon.com/ko/'>AWS s3</a> 
 
 ## 기술스택
-node.js, jQuery, bootstrap, jade, monogdb, aws s3
+node.js, jQuery, bootstrap, pug, monogdb, aws s3
 
 ## Install
 ```bash
