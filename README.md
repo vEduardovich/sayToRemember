@@ -2,7 +2,8 @@
 
 <div align="center">
   <a href='https://str.himion.com/'>https://str.himion.com</a>
-  <div style='margin:20px;'> <img src='./public/img/ci_gray.svg' width='64' ></img> </div>
+  <div> <img src='./public/img/ci_gray.svg' width='64' ></img> </div>
+  <br/>
   <em> 영어 듣기 특화 웹서비스</em>
 </div>
 
